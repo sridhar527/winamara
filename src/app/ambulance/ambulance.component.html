@@ -1,0 +1,142 @@
+<div style="padding-left: 10px;padding-top: 10px;padding-right: 10px;margin-bottom: 10px;
+">
+  <div class="fixHeader" id="myHeader">
+    <mat-card style="background-color: #03a9f4; color:white; padding: 15px;">
+      <mat-card-title>Ambulance Services
+        <button style="    margin-right: 10px;
+      float: right;
+      background-color: white;
+      color: black !important; "
+          class="btn btn-primary mat-ripple" md-ripple="reset" (click)="reset()">Reset</button> &nbsp;
+        <button style="margin-right: 10px;
+      float: right;
+      background-color: white;
+      color: black !important; margin-right: 10px;"
+          class="btn btn-primary mat-ripple" (click)="save(AmbulanceForm.value);refresh()" >Save</button> &nbsp;
+
+      </mat-card-title>
+    </mat-card>
+  </div>
+
+
+</div>
+<div class="content">
+    <div style="padding-left:10px;padding-right:10px">
+      <mat-card style="padding-left:50infopx;">
+  
+        <form class="form-horizontal" class="form-inline" [formGroup]="AmbulanceForm">
+  
+          <div class="row">
+            
+            <div class="col-lg-3 col-md-4 col-sm-12 ">
+              <div class="form-group">
+                <div class="col-xl">
+  
+                  <mat-form-field>
+                     
+                    
+                    <input [value]="Id[1]?Id[1].nextAmbId:''" matInput placeholder="ServiceId" type="text">
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-12 ">
+                <div class="form-group">
+                  <div class="col-xl">
+    
+                    <mat-form-field>
+    
+                      <input [(ngModel)]="patName"  [formControl]="AmbulanceForm.controls['patName']" matInput placeholder="Patient Name" type="text">
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-4 col-sm-12 ">
+                  <div class="form-group">
+                    <div class="col-xl">
+      
+                      <mat-form-field>
+      
+                        <input  [(ngModel)]="mobileNo"  [formControl]="AmbulanceForm.controls['mobileNo']" matInput placeholder="Mobile No" type="text">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-12 ">
+                    <div class="form-group">
+                      <div class="col-xl">
+        
+                          <mat-form-field>
+                              <mat-select [(ngModel)]="fromLocation"  [formControl]="AmbulanceForm.controls['fromLocation']" placeholder="From Location">
+                                <mat-option value="Hyderabad">Hyderabad</mat-option>
+                                <mat-option value="Chennai">Chennai</mat-option>
+                                <mat-option value="Bangalore">Bangalore</mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-4 col-sm-12 ">
+                      <div class="form-group">
+                        <div class="col-xl">
+          
+                            <mat-form-field>
+                                <mat-select [(ngModel)]="toLocation"  [formControl]="AmbulanceForm.controls['toLocation']" placeholder="To Location">
+                                  <mat-option value="Miyapur">Miyapur</mat-option>
+                                  <mat-option value="KPHB">KPHB</mat-option>
+                                 
+                                </mat-select>
+                              </mat-form-field>
+                              
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-12 ">
+                        <div class="form-group">
+                          <div class="col-xl">
+            
+                              <mat-form-field>
+                                  <input [(ngModel)]="fromTime"  [formControl]="AmbulanceForm.controls['fromTime']"matInput [matDatepicker]="picker" placeholder="Date">
+                                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                  <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-md-4 col-sm-12 ">
+                          <div class="form-group">
+                            <div class="col-xl">
+              
+                              <mat-form-field>
+                                  <mat-select  [(ngModel)]="ano"  [formControl]="AmbulanceForm.controls['ano']" placeholder="Ambulance No">
+                                      <mat-option>None</mat-option>
+                      <mat-option *ngFor="let c of Id[0]" [value]="c.ambulanceNO">
+
+                        {{c.ambulanceNO}}
+                      </mat-option>
+                                    </mat-select>
+                               
+                              </mat-form-field>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-sm-12 ">
+                            <div class="form-group">
+                              <div class="col-xl">
+                
+                                <mat-form-field>
+                
+                                  <input  [(ngModel)]="driverName"  [formControl]="AmbulanceForm.controls['driverName']" matInput placeholder="Driver Name" type="text">
+                                </mat-form-field>
+                              </div>
+                            </div>
+                          </div>
+                        
+              
+            
+           </div>
+            </form>
+            </mat-card>
+            </div>
+            </div>
+            

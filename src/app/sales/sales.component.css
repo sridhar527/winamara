@@ -1,0 +1,21 @@
+/* input{
+    text-transform:uppercase   
+  } */
+  .table
+  {
+  height:300px;
+    white-space: nowrap;
+    display: block;
+    overflow-x: scroll;
+    overflow-y: scroll;
+  
+  } 
+  .ng-select.custom .ng-control {
+  max-width: 100px;
+  }
+  .mat-option{
+    background:white;
+}
+.mat-option:hover{
+   background-color: rgba(63, 164, 189, 0.582);
+}

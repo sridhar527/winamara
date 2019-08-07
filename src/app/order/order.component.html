@@ -1,0 +1,261 @@
+<div style="padding-left: 10px;padding-top: 10px;padding-right: 10px;margin-bottom: 10px;
+">
+  <div class="fixHeader" id="myHeader" style="margin-left:-20px;margin-right:-20px" >
+    <mat-card style="background-color: #03a9f4; color:white; padding: 7px;">
+    <mat-card-title style= "font-size:19px;font-weight:bold">Delivery Details
+
+      <button style="margin-right: 10px;
+      float: right;
+      background-color: white;
+      color: black !important;margin-top:-5px "
+        class="btn btn-primary mat-ripple" md-ripple="reset" (click)="reset()">Reset</button> &nbsp;&nbsp;
+      <button style="margin-right: 10px;
+      float: right;
+      background-color: white;
+      color: black !important;margin-top:-5px  "
+        class="btn btn-primary mat-ripple" md-ripple="submit" (click)="save()" [disabled]="!OrderForm.valid" >Save</button>
+
+    </mat-card-title>
+
+
+  </mat-card>
+</div>
+</div>
+<div class="content">
+  <div style="padding-left:10px;padding-right:10px;margin-left:-20px;margin-right:-20px">
+    <mat-card style="padding-left:50infopx;">
+      <!-- <form class="form-horizontal" class="form-inline" [formGroup]="OrderForm">  -->
+        <div class="row">
+
+            <div class="col-lg-3 col-md-4 col-sm-12">
+                <div class="form-group ">
+                  <div class="col-xl">
+    
+                    <mat-form-field>
+    
+                      <input [value]="this.Order[0].nextItemId" matInput placeholder="Delivery Note No" type="text">
+                    </mat-form-field>
+     
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-4 col-sm-12">
+                <div class="form-group ">
+                  <div class="col-xl">
+    
+                    <mat-form-field>
+    
+                      <input [(ngModel)]="billDetail.billNo" [ngModelOptions]="{standalone: true}"  maxlength="9"   (keydown.enter)="getBillDetails(this.billDetail.billNo)" matInput placeholder="Sale Invoice Id#"
+                  type="text">
+                        </mat-form-field>
+     
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-4 col-sm-12">
+                <div class="form-group ">
+                  <div class="col-xl">
+    
+                    <mat-form-field>
+                      <input  [(ngModel)]="deliveryDate" matInput  [matDatepicker]="picker" placeholder="Delivery Date">
+                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+     
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-4 col-sm-12">
+                  <div class="form-group ">
+                    <div class="col-xl">
+      
+                        <mat-form-field>
+                            <mat-select required [(ngModel)]="sentBy" [formControl]="OrderForm.controls['sentBy']" placeholder="Sent By">
+                            
+                              <mat-option value="WINAMRA GRANITE & QUARTZ LTD " >
+                                WINAMRA GRANITE & QUARTZ LTD
+                                
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field> 
+                          <div class="text text-danger" *ngIf="OrderForm.controls['sentBy'].touched && !OrderForm.controls['sentBy'].valid"> Sent By is Mandatory</div>
+
+                    </div>
+                  </div>
+                </div>
+               
+                    <div class="col-lg-3 col-md-4 col-sm-12">
+                      <div class="form-group ">
+                        <div class="col-xl">
+          
+                            <mat-form-field>
+                               <input  [(ngModel)]="billDetail.soldBy" [ngModelOptions]="{standalone: true}"  matInput placeholder="Sold By" type="text" readonly>
+                              </mat-form-field> 
+
+                        </div> 
+                      </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-12">
+                      <div class="form-group ">
+                        <div class="col-xl">
+          
+                            <mat-form-field>
+                               <input  [(ngModel)]="billDetail.customerName" [ngModelOptions]="{standalone: true}"  matInput placeholder="Customer Name" type="text" readonly>
+                              </mat-form-field> 
+
+                        </div> 
+                      </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-12">
+                      <div class="form-group ">
+                        <div class="col-xl">
+          
+                            <mat-form-field>
+                               <input  [(ngModel)]="billDetail.mobileNo" [ngModelOptions]="{standalone: true}" matInput placeholder="Customer Mobile No" type="text" readonly>
+                              </mat-form-field> 
+                             
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-12">
+                      <div class="form-group ">
+                        <div class="col-xl">
+          
+                            <mat-form-field>
+                               <input  [(ngModel)]="billDetail.emailId" [ngModelOptions]="{standalone: true}"  matInput placeholder="Customer E-mail Id" type="text" readonly>
+                              </mat-form-field> 
+                             
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-12">
+                        <div class="form-group ">
+                          <div class="col-xl">
+            
+                              <mat-form-field>
+                                 <input  [(ngModel)]="billDetail.customerOrderNo" [ngModelOptions]="{standalone: true}" matInput placeholder="Customer Order No" type="text" readonly>
+                                </mat-form-field> 
+
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-md-4 col-sm-12">
+                        <div class="form-group ">
+                          <div class="col-xl">
+            
+                              <mat-form-field>
+                                 <input  [(ngModel)]="billDetail.address" [ngModelOptions]="{standalone: true}" matInput placeholder="Address" type="text" readonly>
+                                </mat-form-field> 
+
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-lg-3 col-md-4 col-sm-12">
+                        <div class="form-group ">
+                          <div class="col-xl">
+            
+                              <mat-form-field>
+                                 <input  [(ngModel)]="billDetail.vatNo" [ngModelOptions]="{standalone: true}" matInput placeholder="Customer VAT No" type="text" readonly>
+                                </mat-form-field> 
+
+                          </div>
+                        </div>
+                      </div>
+
+
+        </div>
+      <!-- </form> -->
+    </mat-card>
+  </div>
+</div>
+
+<div style="padding-left:10px;margin-top:-10px;padding-right:10px;margin-left:-20px;margin-right:-20px">
+
+<table width="100%" class="table table table-bordered" style="overflow-y: scroll;">
+  <tbody style="font-size:11px;font-weight: bold">
+    <tr style="background:#03a9f4; color:white;">
+      <th>SNo</th>
+      <th>Item Name</th>
+      <th>Product Type</th>
+      <th>Slab Ref No</th>
+      <th>Origin Ref No</th>
+      <th>Length</th>
+      <th>Height</th>
+      <th>Thickness</th>
+      <th>No.of Pcs</th>
+      <th>Dimension</th>
+      <th>SD</th>
+      <th>Pur Sqm</th>
+      <th>Pur Cubic</th>
+      <th>Net Amount</th>
+     
+    </tr>  
+   
+    <tr *ngFor="let sale of refOrderDetails;let i= index">
+      <td> {{i + 1}}</td>
+      <td>
+
+        <input [(ngModel)]="sale.itemName" style="width:120px;height:30px" [ngModelOptions]="{standalone: true}" placeholder="Item Name"  type="text" readonly>
+
+      </td>
+
+      <td>
+        <input [(ngModel)]="sale.productType" style="width:80px;height:30px" [ngModelOptions]="{standalone: true}" placeholder="Product Type"  type="text" readonly>
+      </td>
+      <td>
+      
+        <ng-select class="custom" [items]="dropdown" [ngModelOptions]="{standalone: true}"
+        bindLabel="refChildSales"
+        bindValue="refChildSales"
+        [(ngModel)]="sale.refChildSales"
+        [multiple]="true"
+        placeholder="Slab RefNo"
+        >
+      </ng-select>
+      </td>
+      <td>
+      
+          <ng-select class="custom" [items]="dropdown" [ngModelOptions]="{standalone: true}"
+          bindLabel="refnewchildsales"
+          bindValue="refnewchildsales"
+          [(ngModel)]="sale.refnewchildsales"
+          [multiple]="true"
+          placeholder="Origin RefNo"
+          >
+        </ng-select>
+        </td>
+      <td>
+        <input [(ngModel)]="sale.length" style="width:60px;height:30px" [ngModelOptions]="{standalone: true}" readonly  placeholder="Length" type="text">
+      </td>
+      <td>
+        <input [(ngModel)]="sale.height" style="width:60px;height:30px" [ngModelOptions]="{standalone: true}" readonly  placeholder="Height" type="text">
+      </td>
+      <td>
+        <input [(ngModel)]="sale.thickNess" style="width:60px;height:30px" [ngModelOptions]="{standalone: true}" readonly  placeholder="Thickness" type="text">
+      </td>
+      <td>
+        <input [(ngModel)]="sale.noOfPcs" style="width:60px;height:30px" [ngModelOptions]="{standalone: true}" readonly  placeholder="No.Of Pcs" type="text">
+      </td>
+      <td>
+        <input [(ngModel)]="sale.dimension" style="width:60px;height:30px" [ngModelOptions]="{standalone: true}" readonly  placeholder="Dimension" type="text">
+      </td>
+      <td>
+        <input [(ngModel)]="sale.sellingDimension" style="width:60px;height:30px" [ngModelOptions]="{standalone: true}" readonly  placeholder="SD" type="text">
+      </td>
+      <td>
+        <input  [(ngModel)]="sale.soldAreaSqm" style="width:60px;height:30px" [ngModelOptions]="{standalone: true}" readonly  placeholder="P-sqm" type="text">
+      </td> 
+      <td>
+        <input  [(ngModel)]="sale.soldAreaCubic" style="width:60px;height:30px" [ngModelOptions]="{standalone: true}" readonly  placeholder="P-Cubic" type="text">
+      </td> 
+      <td>
+        <input [(ngModel)]="sale.netAmount" style="width:70px;height:30px" [ngModelOptions]="{standalone: true}" readonly  placeholder="Net Amt" type="text">
+      </td>
+
+    </tr> 
+    </tbody>
+</table>
+</div>
+
+   

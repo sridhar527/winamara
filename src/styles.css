@@ -1,0 +1,18 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+@import 'src/assets/libs/assets/animate.css/animate.css';
+@import 'src/assets/libs/assets/font-awesome/css/font-awesome.min.css';
+@import 'src/assets/libs/assets/simple-line-icons/css/simple-line-icons.css';
+/* @import 'src/assets/libs/jquery/bootstrap/dist/css/bootstrap.css';   */
+
+@import 'src/assets/css/font.css';
+@import 'src/assets/css/app.css';
+ /* @import "~@ng-select/ng-select/themes/material.theme.css";  */
+ @import "~@ng-select/ng-select/themes/default.theme.css";
+
+.fullscreen 
+{
+    width: 100%;
+    height: 100%;
+}

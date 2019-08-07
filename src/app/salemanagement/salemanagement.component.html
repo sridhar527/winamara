@@ -1,0 +1,554 @@
+<form name="form"  #f="ngForm" novalidate>
+  <div style="padding-left: 10px;padding-top: 10px;padding-right: 10px;margin-bottom: 10px;
+">
+  <div class="fixHeader" id="myHeader" style="margin-left:-20px;margin-right:-20px" >
+    <mat-card style="background-color: #03a9f4; color:white; padding: 7px;">
+        <mat-card-title  style= "font-size:19px;font-weight:bold">Sale Management
+  
+            <button style="    margin-right: 10px;
+            float: right;
+            background-color: white;
+            color: black !important;margin-top:-5px " class="btn btn-primary mat-ripple" md-ripple="submit" routerLink="/dashboard"
+                >Home</button>
+          <button style="    margin-right: 10px;
+          float: right;
+          background-color: white;
+          color: black !important;margin-top:-5px  "
+           class="btn btn-primary mat-ripple" md-ripple="reset" (click)="reset()">Reset</button>&nbsp;
+  
+          <button style="    margin-right: 10px;
+        float: right;
+        background-color: white;
+        color: black !important;margin-top:-5px  "
+        class="btn btn-primary mat-ripple" md-ripple="submit"  [disabled]="!f.form.valid" (click)="showModal1(basic1)">Save</button>&nbsp;&nbsp;
+        
+        </mat-card-title>
+      </mat-card>
+    </div>
+  </div>
+  <div class="content">
+    <div style="padding-left:10px;padding-right:10px;margin-left:-20px;margin-right:-20px">
+      <mat-card style="padding-left:50infopx;">
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <div class="form-group ">
+                <div class="col-xl">
+                  <mat-form-field>
+  
+                    <input [value]="this.billNo" matInput placeholder="Sale Invoice Id#" type="text" >
+                  </mat-form-field>
+  
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <div class="form-group ">
+                <div class="col-xl">
+                  <mat-form-field>
+                    <input name="soldDate" 
+                    #soldDate="ngModel" 
+                    [ngClass]="{ 'is-invalid': f.submitted && soldDate.invalid }" 
+                    required 
+                    [(ngModel)]="newSale.soldDate" matInput  [matDatepicker]="picker" placeholder="Date">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+  
+          
+            
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group ">
+                  <div class="col-xl">
+                    <mat-form-field>
+                      <mat-select  name="soldBy" 
+                      #soldBy="ngModel" 
+                      [ngClass]="{ 'is-invalid': f.submitted && soldBy.invalid }" 
+                      
+                      [(ngModel)]="newSale.soldBy" required placeholder="Sold By">                   
+                     
+                      <mat-option *ngFor="let c of Item[0]" [value]="c.userName">
+    
+                        {{c.userName}}
+                      </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12">
+                  <div class="form-group ">
+                    <div class="col-xl">
+                      <mat-form-field>
+                        <input name="customerOrderNo" 
+                        #customerOrderNo="ngModel" 
+                        [ngClass]="{ 'is-invalid': f.submitted && customerOrderNo.invalid }" 
+                         type="text" maxlength="10" [(ngModel)]="newSale.customerOrderNo"  matInput placeholder="Customer Order No">                   
+                          
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group ">
+                      <div class="col-xl">
+                        <mat-form-field>
+                          <input type="text" matInput placeholder="Invoice No">                   
+                            
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div> -->
+    
+          </div>
+      </mat-card>
+    </div>
+   
+    <div style="padding-left:10px;margin-top:-10px;padding-right:10px;margin-left:-20px;margin-right:-20px">
+      <table width="100%"  class="table table-bordered"  style="overflow-y: scroll;">
+      <tbody style="font-size:11px;font-weight: bold">
+
+      <tr style="background:#03a9f4; color:white;">
+        <th>Sno</th>
+        <th>Product Type</th>
+        <th>Item Name</th>
+        <th>Item Id</th>
+        
+        <th>Slab Ref.No</th>
+      
+          <th>Avail-Qty</th>
+          <th>Dimensions</th>
+          <th>Selling Dms</th>
+        
+        <th>No.Of Pcs</th>
+        <!-- <th>Dimensions</th>   -->
+          <th colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;Dimensions(L,H,T)</th>
+          <th>Total SA</th>
+          <!-- <th>Available Area</th> -->
+       
+        <th>Currency</th>        
+        <th>Selling Price</th>
+       
+        <th>Discount %</th>
+        <th>Amount</th>
+        <!-- <th>Net Amount</th> -->
+        <th>VAT %</th>
+        <th>Total Amt</th>
+        <th>Action</th>     
+      </tr>
+     
+      <tr *ngFor="let sale of refSales;let i= index">
+        <td> {{i + 1}}</td>
+        <td>
+  
+               <ng-select appendTo="body" style="width:130px;" [items]="Item[2]" bindLabel="productName" placeholder="Product Name" (change)="onProductChange($event, sale);">
+                </ng-select>
+          
+        </td>
+        <td>
+            <ng-select appendTo="body" style="width:130px;" [items]="sale.itemsName " bindLabel="itemName" placeholder="Item Name" (change)="setDetails($event, sale);">
+            </ng-select>
+            </td>
+        <td>
+           
+            <select placeholder="Item Id" [(ngModel)]="sale.itemId"  [ngModelOptions]="{standalone: true}" style="width:85px;height:34px" (change)="setChildItemDetails(sale)" >
+               
+                <option  *ngFor="let b of sale.itemsList" [value]="b.itemId">{{b.itemId}}</option>
+              </select> 
+           
+              </td>
+         
+       
+       
+          <td>
+              
+      <ng-select class="custom" [ngStyle]="{ 'width': '150px', 'text-align': 'center'}" [items]="sale.childList"  (change)="onItemSelect($event,sale)" [ngModelOptions]="{standalone: true}"
+      bindLabel="childId"
+      bindValue="childId"
+      [(ngModel)]="sale.refChildSales"
+      [multiple]="true"
+      placeholder="Slab RefNo"
+      >
+
+</ng-select>
+          </td>
+          <td>
+              <input style="width:60px;height:30px" [(ngModel)]="sale.balance"  [ngModelOptions]="{standalone: true}"   placeholder="A-Qty"  type="text" readonly>
+          </td>
+          <td>
+            <select [(ngModel)]="sale.dimension"  [ngModelOptions]="{standalone: true}" (change)="Amount(sale)" placeholder="Dimension" style="width:60px;height:30px">
+              
+              <option value="cm">cm</option>
+              <option value="mm">mm</option>
+              <option value="mtr">mtr</option>
+              
+            </select>
+          </td>
+          <td>
+            <select [(ngModel)]="sale.sellingDimension" (change)="Amount(sale)" [ngModelOptions]="{standalone: true}" placeholder="SP" style="width:60px;height:30px">
+              
+              <option value="Sqm">Sqm</option>
+              <option value="Cubic">Cubic</option>
+              <option value="Pcs">Pcs</option>
+              
+            </select>
+          </td>
+         
+           <td><!-- {{sale.saleQuantity}} -->
+              <input style="width:40px;height:30px" [(ngModel)]="sale.saleQuantity" (change)="Amount(sale)" [ngModelOptions]="{standalone: true}"  readonly placeholder="Pcs"  type="number">
+          </td>
+          
+          <td>
+            <!-- <span *ngIf="sale.itemId">
+            <strong>{{sale.length}}<b>L*&nbsp;</b>{{sale.height}}<b>H*&nbsp;</b>{{sale.thickness}}<b>T&nbsp;</b></strong>
+            </span> -->
+           <input [(ngModel)]="sale.length"  [ngModelOptions]="{standalone: true}" (change)="Amount(sale)" style="width:40px;height:30px" placeholder="L">
+          </td>
+          <td>
+            <input [(ngModel)]="sale.height"  [ngModelOptions]="{standalone: true}" (change)="Amount(sale)" style="width:40px;height:30px" placeholder="H">
+          </td>
+          <td>
+            <input [(ngModel)]="sale.thickness"  [ngModelOptions]="{standalone: true}" (change)="Amount(sale)" style="width:40px;height:30px" placeholder="T">
+          </td>
+          <td>
+        
+            <input  style="width:60px;height:30px" [(ngModel)]="sale.saleArea"  [ngModelOptions]="{standalone: true}" (change)="calcAmount(sale);Amount(sale)" placeholder="Total SA" type="number" readonly>
+       
+          </td>
+      
+          <!-- <td>
+            <span *ngIf="sale.sellingDimension == 'Sqm'">
+                <input [(ngModel)]="sale.availableareaperSqm" style="width:90px;height:30px"  [ngModelOptions]="{standalone: true}" type="number" style="width:90px;height:30px" placeholder="Area(sqm)" readonly>
+              
+              </span>
+            <span *ngIf="sale.sellingDimension == 'Cubic'">
+                <input [(ngModel)]="sale.availableareaperCubic" style="width:90px;height:30px"  [ngModelOptions]="{standalone: true}" type="number" style="width:90px;height:30px" placeholder="Area(Cubic)" readonly>
+             </span>-->
+              <!--input style="width:100px;height:30px" [(ngModel)]="sale.availableareaperSqm"  [ngModelOptions]="{standalone: true}" readonly placeholder="Available Area(sqm)"  type="number"-->
+         <!-- </td> -->
+          <!--td>
+            <input style="width:100px;height:30px" [(ngModel)]="sale.availableareaperCubic"  [ngModelOptions]="{standalone: true}" readonly placeholder="Available Area(cum)"  type="number">
+        </td--> 
+         
+            <td>
+              <select  [(ngModel)]="sale.currency"  [ngModelOptions]="{standalone: true}" placeholder="currency" style="width:65px;height:30px">
+                
+                <option value="Pounds">Pounds</option>
+                <option value="Euro">Euro</option>
+                <option value="Dollars">Dollars</option>
+                <option value="INR">INR</option>
+              </select>
+            </td>
+           
+            <td>
+              <span *ngIf="sale.sellingDimension == 'Sqm'"><input [(ngModel)]="sale.spperArea" style="width:60px;height:30px" (change)="calcAmount(sale);" [ngModelOptions]="{standalone: true}" type="text"  placeholder="SP(Area)"></span>
+            
+              <span *ngIf="sale.sellingDimension == 'Pcs'"><input [(ngModel)]="sale.spperPcs" style="width:60px;height:30px"  (change)="calcAmount(sale)" [ngModelOptions]="{standalone: true}" type="text"  placeholder="SP(Pcs)"></span>
+
+              <span *ngIf="sale.sellingDimension == 'Cubic'"><input [(ngModel)]="sale.spperArea" style="width:60px;height:30px"  (change)="calcAmount(sale)" [ngModelOptions]="{standalone: true}" type="text"  placeholder="SP(Cubic)"></span>
+              <!-- <p *ngIf="sale.sellingDimension == 0"> No Images Available!</p> -->
+            
+            </td>
+            <td>
+                <!-- <input [(ngModel)]="sale.discount" style="width:90px;height:30px" [ngModelOptions]="{standalone: true}" [value]="sale.discount" (input)="calcAmount(sale)" placeholder="Discount"
+                  type="number"> -->
+                  <input style="width:60px;height:30px" [ngModelOptions]="{standalone: true}" [(ngModel)]="sale.discount"  [value]="sale.discount||0" (input)="calcAmount(sale)" placeholder="Discount"
+                  type="text">
+                  <div>
+                  <small *ngIf="sale.discount > 100" style="color:red">Dis should not exceed 100</small>
+                </div>
+                </td>
+          <td>
+             <!-- {{sale.amount}} -->
+              <input [(ngModel)]="sale.amount" (input)="calcAmount2(sale)" style="width:60px;height:30px"  [ngModelOptions]="{standalone: true}" [value]="sale.amount" placeholder="Amount" type="text" readonly>
+            </td>
+        
+           
+              <!-- <td>
+                  <input [(ngModel)]="sale.netAmount" (input)="calcAmount(sale)" style="width:90px;height:30px"  [ngModelOptions]="{standalone: true}" [value]="sale.netAmount" placeholder="Net Amount" type="text" readonly>
+
+                 <input style="width:90px;height:30px" [(ngModel)]="sale.netAmount" (input)="calcAmount2(sale)" [ngModelOptions]="{standalone: true}" placeholder="Net Amount" type="text"  readonly> 
+        
+              </td> -->
+      <td><input type="text" [(ngModel)]="sale.vat" [ngModelOptions]="{standalone: true}" [value]="sale.vat"  (input)="calcAmount(sale)" placeholder="VAT%" style="width:60px;height:30px">
+       <div><small *ngIf="sale.vat > 100" style="color:red">VAT should not exceed 100</small>
+       </div> 
+      </td>
+     
+     
+      <td> 
+        <!-- {{sale.netAmount}} -->
+        <input style="width:60px;height:30px" [(ngModel)]="sale.netAmount"  [ngModelOptions]="{standalone: true}" placeholder="Total Amt" type="text" (keydown.tab)="addMore($event)" (keydown.enter)="addMore($event)" readonly>
+
+      </td>
+        
+        
+         
+        
+          <td>
+              <a (click)="addMore($event)"><i class="fa fa-plus" style="font-size:18px;color:blue"></i></a>&nbsp;
+            <a *ngIf="refSales.length > 1" (click)="removeSaleItem(i);"><i class="fa fa-close" style="font-size:18px;color:red"></i></a>
+            </td>
+      </tr>
+      
+    
+     </tbody>
+    </table>  
+      </div>    
+  <!--/form>-->
+    </div>  
+  </form>  
+        <ng-template #basic1 let-modal>
+            <div class="modal-header" style="background-color: #03a9f4; color:white;">
+              <h4 class="modal-title" id="modal-basic-title">Sale Details</h4>
+              <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+            </div>
+            <div class="modal-body">        
+              <div class="row">              
+                  <div style="padding-left:10px;padding-right:10px">
+                      <table class="table table-bordered  table-responsive" style="overflow-y: scroll">
+                          <tr  style="background:#03a9f4; color:white;">
+                          <th>Sno</th>
+                          <th>Product Type</th>
+                          <th>Item Name</th>
+                           <th>ItemId</th> 
+                         
+                           <th>Available Qty</th>
+                          <!-- <th>Available Area</th> -->
+                          <th>Total SaleArea</th>
+                          
+                          <th>No.Of Pcs</th>
+                         
+                         
+                          <th>Total Amount</th>
+                        </tr>
+                        <tr *ngFor="let sale of refSales;let i= index">
+                          <td>{{i+1}}</td>
+                          <td>{{sale.productName}}</td>
+                          <td>{{sale.itemName}}</td>
+                          <td>{{sale.itemId}}</td> 
+                          <td>{{sale.balance}}</td> 
+                          <td>{{sale.saleArea}}</td>
+                          <td>{{sale.saleQuantity}}</td>
+                          <td>{{sale.netAmount}}</td>
+                        </tr>
+                      </table>
+                      <h1 style="padding-left:550px;font-weight:bold"> Total:{{this.total}}</h1>
+                  </div>
+              </div>
+             
+            </div>
+            <div class="modal-footer" >           
+                <button type="button" class="btn btn-primary" (click)="showModal(basic)">Submit</button> 
+              <button type="button" class="btn btn-danger" (click)="modal.close('Save click');">Close</button>
+            </div>
+          </ng-template>
+  
+  
+       
+        <ng-template #basic let-modal>
+            <div class="modal-header" style="background-color: #03a9f4; color:white;">
+              <h4 class="modal-title" id="modal-basic-title">Customer Details</h4>
+              <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+            </div>
+            <div class="modal-body">        
+              <div class="row">  
+                  <div class="col-md-6">
+                      <div class="form-group ">
+                        <div class="col-xl">
+                          <mat-form-field>
+                            <input required [(ngModel)]="newSale.customerName" minlength="3" maxlength="50" pattern="^[A-Za-z -]+$" #customerName="ngModel" matInput placeholder="Customer Name" type="text">
+              
+                          </mat-form-field>
+                          <div class="text text-danger" *ngIf="customerName.touched && customerName.errors?.required">Mandatory(if not entered)</div>
+                          <div class="text text-danger" *ngIf="customerName.errors?.minlength">Name should have min 3 characters</div>
+                          <div class="text text-danger" *ngIf="customerName.errors?.maxlength">Name should have max 50 characters</div>
+                          <div class="text text-danger" *ngIf="customerName.errors?.pattern">Allow only alphabets</div>
+                        </div>
+                      </div>
+                    </div>    
+                    <div class="col-md-6">
+                        <div class="form-group ">
+                          <div class="col-xl">
+                            <mat-form-field>
+                              <input   [(ngModel)]="newSale.mobileNo"  minlength="10"  maxlength="10" pattern="^-?(0|[0-9]\d*)?$" #mobileNo="ngModel" matInput placeholder="Customer Mobile No" type="text">
+                
+                            </mat-form-field>
+                            <div class="text text-danger" *ngIf="mobileNo.touched && mobileNo.errors?.required">Mandatory(if not entered)</div>
+                             <div class="text text-danger" *ngIf="mobileNo.errors?.minlength">mobile should have min 10 digits</div>
+                            <div class="text text-danger" *ngIf="mobileNo.errors?.maxlength">mobile should have max 10 digits</div> 
+                            <div class="text text-danger" *ngIf="numericError">Allow only numbers</div> 
+              
+                           
+                          </div>
+                        </div>
+                      </div>  
+                      <div class="col-md-6">
+                          <div class="form-group ">
+                            <div class="col-xl">
+                              <mat-form-field>
+                                <input  [(ngModel)]="newSale.emailId"   pattern='^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$' #emailId="ngModel" matInput placeholder="Customer EmailId" type="text">
+                  
+                              </mat-form-field>
+                               <div class="text text-danger" *ngIf="emailId.touched && emailId.errors?.required">Mandatory(if not entered)</div>
+                              <div class="text text-danger" *ngIf="emailId.errors?.pattern">Wrong Pattern</div>
+   
+                            </div>
+                          </div>
+                        </div>  
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                              <div class="col-xl">
+                                <mat-form-field>
+                                  <input  [(ngModel)]="newSale.address"  #address="ngModel" matInput placeholder="Address" type="text">
+                    
+                                </mat-form-field>
+     
+                              </div>
+                            </div>
+                          </div>    
+                        <div class="col-md-6">
+                          <div class="form-group ">
+                            <div class="col-xl">
+                              <mat-form-field>
+                                <input [(ngModel)]="newSale.vatNo" maxlength="15" matInput placeholder="VAT NO" type="text">
+                  
+                              </mat-form-field>
+                            </div>
+                          </div>
+                        </div>           
+                <div class="col-md-6">
+                  <div class="form-group ">
+                    <div class="col-xl">
+                      <mat-form-field>
+                        <input [(ngModel)]="newSale.total"  matInput placeholder="Total" type="text" readonly>
+          
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+              </div> 
+                <div class="row">
+                <table width="100%" class="table table-bordered table-condensed table-responsive">
+
+                  <tr style="background:#03a9f4;color:whitesmoke">
+                    <th>Sno</th>
+                    <th>Payment Type</th>
+                    <th>Action</th>
+                  </tr>
+
+                <tr *ngFor="let c of multiplePayment1;let i= index">
+                  <td> {{i + 1}}</td>
+                  <td>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <!-- <mat-form-field style="width:80px"> -->
+                    <!-- <label style="font-weight: bold;font-size: 11px;">Type</label> -->
+                          <select [(ngModel)]="c.payType" style="margin-top: 23px;"  placeholder="Type">
+        
+                            <option [disabled]="cash" value="Cash">Cash</option>
+                            <option [disabled]="card" value="Card">Card</option>
+                            <option [disabled]="credit" value="Credit">Credit</option>
+                            <option [disabled]="cheque" value="Cheque">Cheque</option>
+                            <option [disabled]="onlinetransfer" value="Online Transfer">Online Transfer</option>
+        
+                          
+                          </select>
+        
+                        <!-- </mat-form-field> -->
+                      </div>
+        
+         
+                      <div *ngIf="c.payType==='Cash'" class="col-md-6">
+        
+                        <mat-form-field style="width:80px;margin-top: 10px;">
+                          <input [disabled]="disable" [(ngModel)]="this.cashamount" matInput placeholder="Amount"
+                            (change)="getcardamount();getcashDueamount();getcashChequeamount();getcashotamount()" 
+                            (input)="getcardamount();getcashDueamount();getcashChequeamount();getcashotamount()"
+                            type="text">
+        
+                        </mat-form-field>
+                        <!-- <div class="text text-danger" *ngIf="total_error">Amount should not be greater than {{newSale.total}}</div> -->
+                      </div>
+                      <div *ngIf="c.payType==='Card'" class="col-md-6">
+        
+                        <mat-form-field style="width:80px;margin-top: 10px;">
+                          <input [disabled]="disable" [(ngModel)]="this.cardamount" matInput placeholder="Amount"
+                            (change)="getcashamount();getcardDueamount();getcardChequeamount();getcardotamount()"
+                             (input)="getcashamount();getcardDueamount();getcardChequeamount();getcardotamount()"
+                            type="text">
+        
+                        </mat-form-field>
+                        <!-- <div class="text text-danger" *ngIf="total_error">Amount should not be greater than {{newSale.total}}</div> -->
+                      </div>
+                    
+                      <div *ngIf="c.payType==='Credit'" class="col-md-6">
+        
+                        <mat-form-field style="width:80px;margin-top: 10px;">
+                          <input [disabled]="disable" [(ngModel)]="this.creditamount" matInput placeholder="Amount"
+                            (change)="getduecardamount();getduecashamount();getduechequeamount();getdueotamount()" 
+                            (input)="getduecardamount();getduecashamount();getduechequeamount();getdueotamount()"
+                            type="text">
+                        </mat-form-field>
+        
+                        <!-- <div class="text text-danger" *ngIf="total_error">Amount should not be greater than {{newSale.total}}</div> -->
+                      </div>
+                      <div *ngIf="c.payType==='Cheque'" class="col-md-6">
+        
+                        <mat-form-field style="width:80px;margin-top: 10px;">
+                          <input [disabled]="disable" [(ngModel)]="this.chequeamount" matInput placeholder="Amount"
+                            (change)="getchequecardamount();getchequecashamount();getchequecreditamount();getchequeotamount()" 
+                            (input)="getchequecardamount();getchequecashamount();getchequecreditamount();getchequeotamount()"
+                            type="text">
+                        </mat-form-field>
+        
+                        <!-- <div class="text text-danger" *ngIf="total_error">Amount should not be greater than {{newSale.total}}</div> -->
+                      </div>
+                      <div *ngIf="c.payType==='Online Transfer'" class="col-md-6">
+        
+                        <mat-form-field style="width:80px;margin-top: 10px;">
+                          <input [disabled]="disable" [(ngModel)]="this.otamount" matInput placeholder="Amount"
+                            (change)="getotcashamount();getotcardamount();getotcreditamount();getotchequeamount()" 
+                            (input)="getotcashamount();getotcardamount();getotcreditamount();getotchequeamount()"
+                            type="text">
+                        </mat-form-field>
+        
+                        <!-- <div class="text text-danger" *ngIf="total_error">Amount should not be greater than {{newSale.total}}</div> -->
+                      </div>
+                   
+                   
+                    </div>
+                  </td>
+                  
+                  <td>
+                    <a (click)="addMore1($event)"><i class="fa fa-plus" style="font-size:18px;color:blue"></i></a>&nbsp;
+                    <a *ngIf="multiplePayment1.length>1" (click)="removeSaleItem1(i);"><i class="fa fa-close"
+                        style="font-size:18px;color:red"></i></a>
+                  </td>
+                </tr>
+</table>
+</div>
+
+
+
+
+
+            
+            </div>
+            
+            <div class="modal-footer">           
+                <button type="button" class="btn btn-primary"  (click)="save()" [disabled]="!newSale.customerName?.length" >Submit</button> 
+              <button type="button" class="btn btn-danger" (click)="modal.close('Save click');">Close</button>
+            </div>
+          </ng-template>
+         
+
+          <!-- [disabled]="!newSale['customerName']?.length || !newSale.mobileNo?.length || !newSale.emailId?.length" -->
+          <!-- [disabled]="!patient.name?.length||!patient.type?.length" -->

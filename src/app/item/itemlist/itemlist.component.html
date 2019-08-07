@@ -1,0 +1,400 @@
+<div style="padding-left: 10px;padding-top: 10px;padding-right: 10px;margin-bottom: 10px;
+">
+  <mat-card style="background-color: #03a9f4; color:white; padding: 7px;margin-left:-20px;margin-right:-20px">
+    <mat-card-title style= "font-size:19px;font-weight:bold">Item Details
+      <button style="    margin-right: 10px;
+      float: right;
+      background-color: white;
+      color: black !important;margin-top:-5px" class="btn btn-primary mat-ripple" md-ripple="submit" routerLink="/dashboard"
+          >Home</button>
+
+    </mat-card-title>
+
+
+  </mat-card>
+
+
+</div>
+<div style="padding-left:10px;padding-right:10px;margin-left:-20px;margin-right:-20px">
+  <mat-card style="max-height: 45px; padding-top: 2px">
+    <label>
+      
+
+        <input [(ngModel)]="filter"  placeholder="Search" type="search">
+     
+    </label>
+    
+
+  </mat-card>
+
+</div>
+<div style="padding-left:10px;margin-top:-10px;padding-right:10px;margin-left:-20px;margin-right:-20px">
+
+<table width="100%" class="table table-striped table-condensed"  style="overflow-y: scroll;">
+  <tbody style="font-size:11px;font-weight: bold">
+
+    <tr style="background:#03a9f4; color:white;">
+    <th>S.NO</th>
+    <th>Item ID</th>
+    <th>Item Name</th>
+    <th>Product Type</th>
+    <th>No.Of Pcs</th>
+    <!-- <th>Available Pcs</th> -->
+    <th>Length</th>
+    <th>Height</th>
+    <th>Thickness</th>
+    <th>Dimension</th>
+    <th>Item Date</th>
+    <th>Tracker</th>
+    <th>Image</th>
+<th>Edit</th>
+<th>Image Edit</th>
+
+    
+
+  </tr>
+  <tr *ngFor="let data of Item| filter: filter|paginate: { itemsPerPage: 10, currentPage: p };let i=index" >
+    <td>{{i+1}}</td>
+    <td>{{data.itemId}}</td>
+    <td>{{data.itemname}}</td>
+    <td>{{data.productName}}</td>
+    <td>{{data.quantity}}</td>
+    <!-- <td>{{data.balance}}</td> -->
+  <td>{{data.length}}</td>
+  <td>{{data.height}}</td>
+  <td>{{data.thickness}}</td>
+  <td>{{data.dimension}}</td>
+  <td>{{data.shippedOn  |  date : "dd.MM.y"}}</td>
+  <td><a style="color:blue" (click)="pdf1(data)">Tracker</a> </td>
+
+  <td><a style="color:green" (click)="pdf(basic1,data)">Image</a> </td>
+    <td><a style="color:rgb(194, 43, 43)" (click)="open(basic,data)">Edit</a></td>
+    <td> <input  type="file"  (change)="onFileSelected($event)" multiple><br>
+      <button type="button" (click)="onUpload()">Upload</button></td>
+
+  </tr>
+</tbody>
+</table>
+</div>
+<pagination-controls (pageChange)="p = $event"></pagination-controls>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
+
+<ng-template #basic1 let-modal>
+  <div class="modal-header" style="background-color: #03a9f4; color:white;">
+    <h4 class="modal-title" id="modal-basic-title">Image Information</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+  </div>
+  <div class="modal-body">
+    <section class="d-flex flex-row flex-wrap" style="justify-content: center">
+    <img *ngFor='let data of Image'  class="m-2" style="max-width:200px;max-height:200px;" [src]="data.ItemId" >
+    </section>
+    <p *ngIf="Image.length == 0"> No Images Available!</p>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">close</button>
+  
+</div>
+</ng-template>
+
+
+
+
+
+
+
+
+<ng-template #basic let-modal>
+  <div class="modal-header" style="background-color: #03a9f4; color:white;">
+    <h4 class="modal-title" id="modal-basic-title"> Edit Information</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="form-inline" [formGroup]="ItemForm">
+      <div class="row">
+        <div class="col-lg-4 col-md-3">
+          <div class="form-group ">
+            <div class="col-xl">
+              <mat-form-field>
+
+                <input style="color:blue" required [(ngModel)]="itemId" formControlName="itemId" matInput placeholder="Item Id" type="text" readonly>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-3">
+          <div class="form-group ">
+            <div class="col-xl">
+              <mat-form-field>
+
+                <input required  minlength="3" maxlength="50" [(ngModel)]="itemname" formControlName="itemname"  matInput placeholder="Item Name" type="text">
+              </mat-form-field>
+              <div *ngIf="ItemForm.controls['itemname'].hasError('required') && ItemForm.controls['itemname'].touched"
+              class="text text-danger">
+              <small>Mandatory(if not entered)</small>
+             </div>
+            <!-- <div *ngIf="ItemForm.controls['itemname'].hasError('pattern') && ItemForm.controls['itemname'].touched"
+              class="text text-danger">
+              <small>Enter valid type</small>
+            </div> -->
+            <div *ngIf="ItemForm.controls['itemname'].hasError('minlength') && ItemForm.controls['itemname'].touched"
+            class="text text-danger">
+            <small>minlength is 3</small>
+          </div>
+
+
+
+            </div>
+         </div>
+        </div>
+      
+        
+     
+          <div class="col-lg-4 col-md-3">
+              <div class="form-group ">
+                <div class="col-xl">
+                  <mat-form-field>
+    
+                    <input  [(ngModel)]="colour" formControlName="colour" matInput placeholder="Colour" type="text">
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-3">
+              <div class="form-group ">
+                <div class="col-xl" style="padding-left: 10px;">
+                  <!-- <mat-form-field>
+    
+                    <input required  minlength="3" maxlength="50" [(ngModel)]="productName" formControlName="productName" matInput placeholder="Product Type" type="text">
+                  </mat-form-field> 
+                  <div *ngIf="ItemForm.controls['productName'].hasError('required') && ItemForm.controls['productName'].touched" class="text text-danger">
+                    Product Name is Mandatory
+                    </div>
+                   
+                  <div *ngIf="ItemForm.controls['productName'].hasError('minlength') && ItemForm.controls['productName'].touched"
+                  class="text text-danger">
+                  <small>minlength is 3</small>
+                </div> -->
+                <label  style="padding-right: 100px">
+                  ProductName</label>&nbsp;
+                     <select  [(ngModel)]="productName"  formControlName="productName" style="padding-left: 90px;">
+                         <option>None</option>
+                       <option value="Quartz">Quartz</option>
+                       <option value="Marbles">Marbles</option>
+                       <option value="Granites">Granites</option> 
+                       <option value="Monuments">Monuments</option> 
+                     </select> 
+                </div>
+    
+    
+             </div>
+    
+              </div>
+              
+            <div class="col-lg-4 col-md-3">
+              <div class="form-group ">
+                <div class="col-xl" style="padding-left: 10px;">
+                  <!-- <mat-form-field>
+  
+                    <input [(ngModel)]="dimension" [formControl]="ItemForm.controls['dimension']" matInput placeholder="Dimensions" type="text">
+                  </mat-form-field> -->
+                  <label  style="padding-right: 115px">
+                    Dimensions</label>&nbsp;
+                     <select [(ngModel)]="dimension"  formControlName="dimension" (change)="amount()" style="padding-left: 120px;">
+                        
+                       <option value="cm">cm</option>
+                       <option value="mm">mm</option>
+                       <option value="mtr">mtr</option>
+                     </select>
+                     <!-- <mat-form-field>
+                      <mat-select [(ngModel)]="dimension"  formControlName="dimension" (change)="amount()" placeholder="Dimensions">
+                          <mat-option value="cm">cm</mat-option>
+                          <mat-option value="mm">mm</mat-option>
+                          <mat-option value="mtr">mtr</mat-option>
+                        </mat-select>
+                  </mat-form-field> -->
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-3">
+                <div class="form-group ">
+                  <div class="col-xl">
+                    <mat-form-field>
+      
+                      <input  [(ngModel)]="length" formControlName="length" (change)="amount()" matInput placeholder="Length" type="number">
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+             
+                <div class="col-lg-4 col-md-3">
+                    <div class="form-group ">
+                      <div class="col-xl">
+                        <mat-form-field>
+          
+                          <input  [(ngModel)]="height" formControlName="height" (change)="amount()" matInput placeholder="Height" type="number">
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-3">
+                      <div class="form-group ">
+                        <div class="col-xl">
+                          <mat-form-field>
+            
+                            <input  [(ngModel)]="thickness" formControlName="thickness" (change)="amount()" matInput placeholder="Thickness" type="number">
+                          </mat-form-field>
+                        </div>
+                      </div>
+                    </div>
+                  <div class="col-lg-4 col-md-3">
+                      <div class="form-group ">
+                        <div class="col-xl">
+                          <mat-form-field>
+            
+                            <input  [(ngModel)]="areaperSqmt" formControlName="areaperSqmt" (change)="amount()" matInput placeholder="Per Piece(sqm)" type="text">
+                          </mat-form-field>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-4 col-md-3">
+                     <div class="form-group ">
+                        <div class="col-xl">
+                          <mat-form-field>
+          
+                            <input [(ngModel)]="areaperCubic" [formControl]="ItemForm.controls['areaperCubic']" (change)="amount()" matInput placeholder="Per Piece(cubic)" type="text">            
+                              </mat-form-field>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-4 col-md-3">
+                        <div class="form-group ">
+                          <div class="col-xl">
+                            <mat-form-field>
+              
+                              <input style="color:blue" [(ngModel)]="quantity" formControlName="quantity" (change)="amount()" matInput placeholder="No.Of Pieces" type="number" readonly>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-4 col-md-3">
+                          <div class="form-group ">
+                            <div class="col-xl">
+                              <mat-form-field>
+                
+                                <input  [(ngModel)]="totalareaSqMt" formControlName="totalareaSqMt" (change)="amount()" matInput placeholder="Total Area(sqm)" type="text">
+                              </mat-form-field>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-lg-4 col-md-3">
+                          <div class="form-group ">
+                            <div class="col-xl">
+                              <mat-form-field>
+              
+                                <input  [(ngModel)]="totalareaCubic" [formControl]="ItemForm.controls['totalareaCubic']" (change)="amount()" matInput placeholder="Total Area(Cum)" type="text" readonly>
+                          
+                              </mat-form-field>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-lg-4 col-md-3">
+                          <div class="form-group ">
+                            <div class="col-xl">
+                              <mat-form-field>
+                                  <input  [(ngModel)]="currency" formControlName="currency" matInput placeholder="Currency" type="text">
+
+                                  <!-- <mat-select [(ngModel)]="currency" formControlName="currency"  placeholder="Currency">
+                                      <mat-option value="EURO">EURO</mat-option>
+                                      <mat-option value="INR">INR</mat-option>
+                                      <mat-option value="DOLLAR">DOLLAR</mat-option>
+                                      <mat-option value="POUNDS">POUNDS</mat-option>
+                                    </mat-select> -->
+                              </mat-form-field>
+                            </div>
+                          </div>
+                        </div> 
+                        <div class="col-lg-4 col-md-3">
+                            <div class="form-group ">
+                              <div class="col-xl">
+                                <mat-form-field>
+                  
+                                  <input  [(ngModel)]="price" formControlName="price" (change)="calc1(total);calc5(total)" matInput placeholder="Cost Price" type="text">
+                                </mat-form-field>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- <div class="col-lg-4 col-md-3">
+                              <div class="form-group ">
+                                <div class="col-xl">
+                                  <mat-form-field>
+                    
+                                    <input  [(ngModel)]="totalprice" formControlName="totalprice"  matInput placeholder="Total Price(sqm)" type="text">
+                                  </mat-form-field>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-lg-4 col-md-3">
+                              <div class="form-group ">
+                                <div class="col-xl">
+                                  <mat-form-field>
+                  
+                                    <input [(ngModel)]="totalpriceCubic" formControlName="totalpriceCubic" matInput placeholder="Total Price(cubic)" type="text">                
+                                  </mat-form-field>
+                                </div>
+                              </div>
+                            </div> -->
+                            <div class="col-lg-4 col-md-3">
+                                <div class="form-group ">
+                                  <div class="col-xl">
+                                    <mat-form-field>
+                      
+                                      <input  [(ngModel)]="sellingPrice" formControlName="sellingPrice" matInput placeholder="Selling Price" type="text">
+                                    </mat-form-field>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-lg-4 col-md-3">
+                                  <div class="form-group ">
+                                    <div class="col-xl">
+                                      <mat-form-field>
+                        
+                                        <input [(ngModel)]="shippedOn" formControlName="shippedOn" matInput placeholder="Shipped On" type="date">
+                                      </mat-form-field>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-lg-4 col-md-3">
+                                    <div class="form-group ">
+                                      <div class="col-xl">
+                                        <mat-form-field>
+                          
+                                          <input  [(ngModel)]="shippedFrom" formControlName="shippedFrom" matInput placeholder="Shipped From" type="text">
+                                        </mat-form-field>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <!-- <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group ">
+                                      <div class="col-xl">
+                        
+                                        <input  type="file"  (change)="onFileSelected($event)" multiple><br>
+                                        <button type="button" (click)="onUpload()">Upload</button>
+                                </div>
+                              </div>
+                            </div> -->
+
+        </div>
+  </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">close</button>
+      
+      <button type="button" class="btn btn-primary" md-ripple="submit" [disabled]="!ItemForm.valid" (click)="save(ItemForm.value);modal.close('Save click')">save</button>
+    </div>
+  </ng-template>
+  

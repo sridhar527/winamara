@@ -1,0 +1,180 @@
+
+<div style="padding-left: 10px;padding-top: 10px;padding-right: 10px;margin-bottom: 10px;
+">
+  <mat-card style="background-color: #03a9f4; color:white; padding: 15px;">
+    <mat-card-title>PATIENT LIST
+
+
+    </mat-card-title>
+
+
+  </mat-card>
+
+
+</div>
+<div style="padding-left:10px;padding-top:10px;padding-right:10px">
+    <mat-card>
+      <label>
+      <mat-form-field>
+         
+                <input [(ngModel)]="filter"  matInput placeholder="Search" type="text" >
+              </mat-form-field>
+            </label>
+  
+  
+    </mat-card>
+  
+  </div>
+  
+  
+
+<div style="padding-left:10px;padding-top:10px;padding-right:10px">
+  
+    <table width="100%" class="table  table-condensed" style="overflow-y: scroll;">
+      <tr style="background:rgb(53, 49, 49)">
+          <th>UMR#</th>
+        <th>RegId</th>
+  
+        <th>Name</th>
+        <th>Patient Type</th>
+        <th>Room</th>
+        <th>ConsultingDr</th>
+        <th>Advance Amount</th>
+        <th>Cost so far</th>
+        <th>Accept Payments</th>
+        <th>Services Availed</th>
+        <th>Tracker</th>
+      </tr>
+      <tr *ngFor="let data of Plist|filter:filter|paginate: { itemsPerPage: 15, currentPage: p };let i=index">
+          <td>{{data.umr}}</td>
+       <td>{{data.regId}}</td>
+  <td>{{data.name}}</td>
+  <td>{{data.patType}}</td>
+  <td>{{data.room}}</td>
+  <td>{{data.doctor}}</td>
+  <td>{{data.advance}}</td>
+  <td>{{data.soFar}}</td>
+      <td><a *ngIf="data.patType === 'INPATIENT'" style="color:blue" (click)="open(basic1,data)">
+        Payment</a>
+        <p *ngIf="data.patType === 'OUTPATIENT'">&nbsp;</p></td>
+     <td> <a style="color:green" (click)="showNotes(data)">services</a></td>
+     <td> <a style="color:green" (click)="showReports(basic2);getBills(data)">Tracker</a></td>
+      </tr>
+    </table>
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  </div>
+
+
+
+  <ng-template #basic1 let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Payment</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+       <div class=" col-md-6">
+        <div class="form-group">
+          <div class="col-xl">
+
+            <mat-form-field>
+
+              <input required [(ngModel)]="advance" pattern="(0|[0-9]\d*)" [formControl]="PatientForm.controls['advance']" matInput placeholder="Amount"
+                type="text">
+            </mat-form-field>
+
+          </div>
+
+          <div class="text text-danger" *ngIf="PatientForm.controls['advance'].touched && !PatientForm.controls['advance'].valid">Mandatory(if not entered)</div>
+
+          <div class="text text-danger" *ngIf="PatientForm.controls['advance'].errors?.pattern">Allow only numbers</div>
+
+
+        </div>
+      </div>
+
+      <div class=" col-md-6">
+        <div class="form-group">
+          <div class="col-xl">
+
+            <label>Type :</label>
+            <select style="width:150px"  placeholder="Type"
+              type="text">
+          
+              <option value="Advnce">Advance</option>
+             
+            </select>
+
+          </div>
+        </div>
+      </div>
+
+
+      <div class=" col-md-6">
+        <div class="form-group ">
+          <div class="col-xl">
+
+
+
+
+            <mat-radio-group [(ngModel)]="mode" [formControl]="PatientForm.controls['mode']">
+              <mat-radio-button value="cash">cash</mat-radio-button><br>
+              <mat-radio-button value="credit card">credit card</mat-radio-button><br>
+              <mat-radio-button value="debit card">debit card</mat-radio-button><br>
+              <mat-radio-button value="cheque">cheque</mat-radio-button>
+
+            </mat-radio-group>
+         
+
+
+          </div>
+        </div>
+      </div> 
+
+  
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-danger" (click)="modal.close('Save click')">cancel</button>
+
+      <button class="btn btn-primary mat-ripple" md-ripple="submit" [disabled]="!PatientForm.valid" (click)="save(PatientForm.value)">Submit</button>
+
+   
+  </div>
+  </ng-template>
+
+
+  <ng-template #basic2 let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">ALL BILLS</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <table class="table table-">
+              <thead>
+              <th> Name </th>
+              <th> Action </th>
+              </thead>
+              <tbody>
+<tr *ngFor="let item of Bills | keyvalue">
+
+    <td> {{item.key}}</td>
+    <td><a href="{{item.value}}" target="_blank">open</a></td>
+</tr>
+</tbody>
+
+</table>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-danger" (click)="modal.close('Save click')">cancel</button>
+  
+       
+  
+     
+    </div>
+    </ng-template>
+  
+  

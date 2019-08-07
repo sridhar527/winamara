@@ -1,0 +1,14 @@
+
+.test {
+  background-color: red;
+}
+.sticky{
+  position: fixed;
+  top: 0;
+  width: 80%;
+  z-index: 1000;
+  margin-top: -8px;
+}
+/* input{
+  text-transform:uppercase   
+} */

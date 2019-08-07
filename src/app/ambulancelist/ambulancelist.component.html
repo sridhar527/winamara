@@ -1,0 +1,137 @@
+<div style="padding-left: 10px;padding-top: 10px;padding-right: 10px;margin-bottom: 10px;
+">
+  <mat-card style="background-color: #03a9f4; color:white; padding: 15px;">
+    <mat-card-title> Ambulance List
+
+    </mat-card-title>
+
+  </mat-card>
+
+
+</div>
+<div style="padding-left:10px;padding-top:10px;padding-right:10px">
+  <mat-card>
+    <label>
+      <mat-form-field>
+
+        <input [(ngModel)]="filter" matInput placeholder="Search By PatientName" type="text">
+      </mat-form-field>
+    </label>
+  </mat-card>
+</div>
+<div style="padding-left:10px;padding-top:10px;padding-right:10px">
+
+  <table width="100%" class="table table-striped table-condensed" style="overflow-y: scroll;">
+    <tr style="background:rgb(53, 49, 49)">
+      <th>Service Id</th>
+      <th>Patient Name</th>
+      <th>Mobile Number</th>
+      <th>From Location</th>
+      <th>To Location</th>
+      <th>Date</th>
+      <th>Tag Patient</th>
+    </tr>
+    <tr *ngFor="let data of alist">
+      <td>{{data.patAmbulanceId}} </td>
+      <td>{{data.patName}} </td>
+      <td>{{data.mobileNo}} </td>
+      <td>{{data.fromLocation}} </td>
+      <td>{{data.toLocation}} </td>
+      <td>{{data.fromTime | date :  "dd.MM.y"}} </td>
+      <td><a style="color:blue" (click)="open(basic,data)">Tag Patient</a></td>
+    </tr>
+    </table>
+</div>
+<ng-template #basic let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">  Tag Patient</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+      <form class="form-horizontal" class="form-inline" [formGroup]="AmbulanceForm">
+            <div class="row">
+                <div class="col-lg-4 col-md-3">
+                  <div class="form-group">
+                    <div class="col-xl">
+        
+                      <mat-form-field>
+        
+                        <input [(ngModel)]="patAmbulanceId" formControlName="patAmbulanceId" matInput placeholder="Service Id" type="text">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-md-3">
+                    <div class="form-group">
+                      <div class="col-xl">
+          
+                        <mat-form-field>
+          
+                          <input [(ngModel)]="regNo"  formControlName="regNo" matInput placeholder="Patient RegNo" type="text">
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-3">
+                      <div class="form-group">
+                        <div class="col-xl">
+            
+                          <mat-form-field>
+            
+                            <input [(ngModel)]="billAmount" formControlName="billAmount" matInput placeholder="Amount" type="text">
+                          </mat-form-field>
+                        </div>
+                      </div>
+                    </div>
+                  
+                    <div class="col-lg-4 col-md-3">
+                        <div class="form-group">
+                          <div class="col-xl">
+              
+                            <mat-form-field>
+              
+                              <input [(ngModel)]="paidTo"  formControlName="paidTo" matInput placeholder="Paid To" type="text">
+                            </mat-form-field>
+                          </div>
+                        </div>
+                      </div>
+                     
+                      <div class="col-lg-4 col-md-3">
+                        <div class="form-group">
+                          <div class="col-xl">
+              
+                            <mat-form-field>
+              
+                              <input [(ngModel)]="amountStatus" formControlName="amountStatus"  matInput placeholder="amountStatus" type="text">
+                            </mat-form-field>
+                          </div>
+                        </div>
+                      </div>
+  
+  
+                        <div class="col-lg-4 col-md-3">
+                            <div class="form-group">
+                              <div class="col-xl">
+                  
+                                <mat-form-field>
+                  
+                                  <input [(ngModel)]="toTime" formControlName="toTime"  matInput placeholder="ToDate" type="Date">
+                                </mat-form-field>
+                              </div>
+                            </div>
+                          </div>
+  
+                
+              </div>
+          </form>
+          </div>
+          <div class="modal-footer">
+              <button class="btn btn-primary mat-ripple" md-ripple="submit"   (click)="save(AmbulanceForm.value);modal.close('Save click')">Save</button>
+              <button type="button" class="btn btn-danger mat-ripple" (click)="modal.close('Cancel click')">Cancel</button>
+             
+            </div>
+          </ng-template>
+          

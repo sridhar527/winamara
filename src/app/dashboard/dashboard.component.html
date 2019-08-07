@@ -1,0 +1,117 @@
+<div >
+ 
+  <div class="full-container" style="padding-left: 60px;
+  padding-top: 30px;">
+
+    <div class="card circle sonar sonar-fill sonar-hover" routerLink="/sale" style="background-color:#EAB543">
+        <div class="card-body">
+            
+            <h3 class="card-subtitle mb-2 ">
+                
+                <h1 class="card-title">
+                  <i class="fa fa-line-chart fa-3x" aria-hidden="true"></i>
+                </h1>
+                Sales </h3>
+        </div>
+    </div>
+      
+        <!-- <div class="card circle sonar sonar-fill sonar-hover" routerLink="/invoice" style="background-color:#55E6C1">
+          <div class="card-body">
+              
+              <h3 class="card-subtitle mb-2 ">
+                  <h1 class="card-title">
+                    <i class="fa fa-file-text-o fa-5x" aria-hidden="true"></i>
+                  </h1>
+                Invoice</h3>
+          </div>
+        </div> -->
+
+        <div class="card circle sonar sonar-fill sonar-hover" routerLink="/item" style="background-color:#FD7272">
+          <div class="card-body">
+              <h1 class="card-title"><i class="fa fa-info-circle fa-3x" aria-hidden="true"></i></h1>
+              <h3 class="card-subtitle mb-2 " >Item Entry</h3>
+          </div>
+        </div>
+
+        <div class="card circle sonar sonar-fill sonar-hover" routerLink="/itemlist" style="background-color:#82589F">
+          <div class="card-body">
+              <h1 class="card-title"> <i class="fa fa-list fa-3x" aria-hidden="true"></i></h1>
+              <h3 class="card-subtitle mb-2 ">Item  Details</h3>
+          </div>
+        </div>
+
+        <div class="card circle sonar sonar-fill sonar-hover" routerLink="/paymentvocher" style="background-color:#B33771">
+          <div class="card-body">
+           
+              <h1 class="card-title"> <i class="fa fa-credit-card fa-3x" aria-hidden="true"></i></h1>
+              
+              <h3 class="card-subtitle mb-2 "> Payment
+                <br> Voucher</h3>
+          </div>
+    </div>
+    
+    <div class="card circle sonar sonar-fill sonar-hover" routerLink="/order" style="background-color:#55E6C1">
+      <div class="card-body">
+          
+          <h3 class="card-subtitle mb-2 ">
+              <h1 class="card-title">
+                <i class="fa fa-truck fa-3x" aria-hidden="true"></i>
+              </h1>
+            Delivery</h3>
+      </div>
+    </div>
+    
+
+  </div>
+
+
+  <div style="display:flex; align-items: right; margin-left: 10%">
+    <div class="col-lg-3 col-xs-6 row" style="margin-left: -100px;padding-top: 15px;">
+      
+      <div class="rad-info-box rad-txt-danger"  routerLink="/quartz"
+        style="background-image: url('../../assets/img/quartz.jpeg'); background-size: 20rem">
+         
+        <h3>Quartz</h3>
+        <span  class="value"><span style="color: white;">{{QuartzBalance}}</span></span>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-xs-6" style="padding-top:15px;">
+      <div class="rad-info-box rad-txt-danger" routerLink="/marbles"
+      style="background-image: url('../../assets/img/marble.jpeg'); ">
+        <h3 >Marbles</h3>
+        <span  class="value"><span style="color: white;">{{Marblesbalance}}</span></span>
+      </div>
+    </div>
+      <div class="col-lg-3 col-xs-6" style="padding-top:15px;">
+        <div class="rad-info-box rad-txt-danger" routerLink="/graphites" 
+        style="background-image: url('../../assets/img/granite.jpg'); background-size: 20rem">
+        
+       
+
+ 
+          <h3 >Granites</h3>
+          <span  class="value"><span style="color: white;">{{Graphitesbalance}}</span></span>
+          
+        </div>
+      </div>
+      <div class="col-lg-3 col-xs-6" style="padding-top: 15px;">
+          <div class="rad-info-box rad-txt-danger" routerLink="/monuments" 
+          style="background-image: url('../../assets/img/monument.jpg'); background-size: 20rem">
+          
+         
+  
+   
+            <h3 >Monuments</h3>
+            <span  class="value"><span style="color: white;">{{Monumentsbalance}}</span></span>
+            
+          </div>
+        </div>
+      
+
+    </div>
+
+  </div>
+
+
+

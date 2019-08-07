@@ -1,0 +1,59 @@
+<div style="padding-left: 10px;padding-top: 10px;padding-right: 10px;margin-bottom: 10px;
+">
+  <mat-card style="background-color: #03a9f4; color:white; padding: 7px;margin-left:-20px;margin-right:-20px">
+    <mat-card-title style= "font-size:19px;font-weight:bold">Tag Sales
+        <button style="margin-right: 10px;
+        float: right;
+        background-color: white;
+        color: black !important;margin-top:-5px "
+          class="btn btn-primary mat-ripple" md-ripple="reset" (click)="reset()">Reset</button> &nbsp;&nbsp;
+      <button style="    margin-right: 10px;
+      float: right;
+      background-color: white;
+      color: black !important;margin-top:-5px" class="btn btn-primary mat-ripple" md-ripple="submit" (click)="save(SlabForm.value)"
+          >Save</button>
+
+    </mat-card-title>
+
+
+  </mat-card>
+
+
+</div>
+<div style="padding-left:10px;padding-right:10px;margin-left:-20px;margin-right:-20px">
+  <mat-card style="max-height: 45px; padding-top: 2px">
+    <mat-form-field>
+      
+
+      <input [(ngModel)]="billDetail.billNo"  maxlength="9"  matInput (keydown.enter)="getBillDetails($event);" placeholder="Sale Invoice Id#"
+      type="text">
+     
+    </mat-form-field>
+    
+
+  </mat-card>
+
+</div>
+<div style="padding-left:10px;margin-top:-10px;padding-right:10px;margin-left:-20px;margin-right:-20px">
+
+  <table width="100%" class="table table-bordered"  style="overflow-y: scroll;">
+    <tbody style="font-size:11px;font-weight: bold">
+  
+      <tr style="background:#03a9f4; color:white;">
+      <th>S.NO</th>
+      <th>Slab Ref.No</th>
+      <th>Tag Sale</th>
+      </tr>
+      <tr *ngFor="let data of updateSlab| filter: filter|paginate: { itemsPerPage: 10, currentPage: p };let i=index" >
+        <td>{{i+1}}</td>
+        <td>
+          <input [(ngModel)]="data.slabNo" [ngModelOptions]="{standalone: true}" placeholder="Slab No" matInput type="text" readonly>
+
+        </td>
+        <td>
+            <input [(ngModel)]="data.newSlabNo" [ngModelOptions]="{standalone: true}" placeholder="Tag" type="text">
+          </td>
+      </tr>
+      </tbody>
+      </table>
+      </div>

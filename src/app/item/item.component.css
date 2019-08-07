@@ -1,0 +1,10 @@
+ /* .myclass {
+  color:red !important;
+  font-size:20px;
+} */
+.mat-option{
+  background:white;
+}
+.mat-option:hover{
+ background-color: rgba(63, 164, 189, 0.582);
+}

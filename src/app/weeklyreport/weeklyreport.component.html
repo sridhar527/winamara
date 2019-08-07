@@ -1,0 +1,58 @@
+<div style="padding-left: 10px;padding-top: 10px;padding-right: 10px;margin-bottom: 10px;
+">
+  <div class="fixHeader" id="myHeader" style="margin-left:-20px;margin-right:-20px" >
+    <mat-card style="background-color: #03a9f4; color:white; padding: 7px;">
+    <mat-card-title style= "font-size:19px;font-weight:bold">Sales Reports
+      <button style="    margin-right: 10px;
+      float: right;
+      background-color: white;
+      color: black !important;margin-top:-5px " class="btn btn-primary mat-ripple" md-ripple="submit" 
+      [disabled]="!WeekForm.valid" (click)="save(WeekForm.value)"
+          >Submit</button>
+
+    </mat-card-title>
+
+
+  </mat-card>
+
+</div>
+</div>
+<div class="content">
+  <div style="padding-left:10px;padding-right:10px;margin-left:-20px;margin-right:-20px">
+    <mat-card style="padding-left:50infopx;">
+      <form class="form-horizontal" class="form-inline" [formGroup]="WeekForm">
+        
+        <div class="row">
+          
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group ">
+              <div class="col-xl">
+                <mat-form-field style="width:150px;margin-top:-5px">
+                  <input required [max]="minDate" [(ngModel)]="fromDate" [formControl]="WeekForm.controls['fromDate']" matInput [matDatepicker]="picker1" placeholder="From Date">
+                  <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                  <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+                <div class="text text-danger" *ngIf="WeekForm.controls['fromDate'].touched && !WeekForm.controls['fromDate'].valid">Mandatory(if not entered)</div>
+
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group ">
+              <div class="col-xl">
+                <mat-form-field style="width:150px;margin-top:-5px">
+                  <input required [(ngModel)]="toDate" [formControl]="WeekForm.controls['toDate']"  matInput [matDatepicker]="picker" placeholder="To Date">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+                <div class="text text-danger" *ngIf="WeekForm.controls['toDate'].touched && !WeekForm.controls['toDate'].valid">Mandatory(if not entered)</div>
+
+               </div>
+              </div>
+            </div>
+            </div>
+            </form>
+            </mat-card>
+            </div>
+            </div>
+            

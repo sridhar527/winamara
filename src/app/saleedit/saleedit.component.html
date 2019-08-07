@@ -1,0 +1,341 @@
+<div style="padding-left: 10px;padding-top: 10px;padding-right: 10px;margin-bottom: 10px;
+">
+  <div class="fixHeader" id="myHeader" style="margin-left:-20px;margin-right:-20px" >
+    <mat-card style="background-color: #03a9f4; color:white; padding: 7px;">
+    <mat-card-title style= "font-size:19px;font-weight:bold">Sale Edit
+
+      <button style="margin-right: 10px;
+      float: right;
+      background-color: white;
+      color: black !important;margin-top:-5px "
+        class="btn btn-primary mat-ripple" md-ripple="reset" (click)="reset()">Reset</button> &nbsp;&nbsp;
+      <button style="margin-right: 10px;
+      float: right;
+      background-color: white;
+      color: black !important;margin-top:-5px  "
+        class="btn btn-primary mat-ripple" md-ripple="submit" (click)="open(basic)" >Save</button>
+
+    </mat-card-title>
+
+
+  </mat-card>
+</div>
+</div>
+<div class="content">
+  <div style="padding-left:10px;padding-right:10px;margin-left:-20px;margin-right:-20px">
+    <mat-card style="padding-left:50infopx;">
+      <!-- <form class="form-horizontal" class="form-inline" [formGroup]="OrderForm">  -->
+        <div class="row">
+
+            
+              <div class="col-lg-3 col-md-4 col-sm-12">
+                <div class="form-group ">
+                  <div class="col-xl">
+    
+                    <mat-form-field>
+    
+                      <input [(ngModel)]="billDetail.billNo" [ngModelOptions]="{standalone: true}"  maxlength="9"   (keydown.enter)="getBillDetails(this.billDetail.billNo)" matInput placeholder="Sale Invoice Id#"
+                  type="text">
+                        </mat-form-field>
+     
+                  </div>
+                </div>
+              </div>
+             
+               
+                    <div class="col-lg-3 col-md-4 col-sm-12">
+                      <div class="form-group ">
+                        <div class="col-xl">
+          
+                            <mat-form-field>
+                               <input  [(ngModel)]="billDetail.soldBy" [ngModelOptions]="{standalone: true}"  matInput placeholder="Sold By" type="text" readonly>
+                              </mat-form-field> 
+
+                        </div> 
+                      </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-12">
+                      <div class="form-group ">
+                        <div class="col-xl">
+          
+                            <mat-form-field>
+                               <input style="color:blue" minlength="3" maxlength="50" pattern="^[A-Za-z -]+$" [(ngModel)]="billDetail.customerName" [ngModelOptions]="{standalone: true}"  matInput placeholder="Customer Name" type="text" >
+                              </mat-form-field> 
+
+                        </div> 
+                      </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-12">
+                      <div class="form-group ">
+                        <div class="col-xl">
+          
+                            <mat-form-field>
+                               <input style="color:blue" minlength="10"  maxlength="10" pattern="^-?(0|[0-9]\d*)?$" [(ngModel)]="billDetail.mobileNo" [ngModelOptions]="{standalone: true}" matInput placeholder="Customer MobileNo" type="text" >
+                              </mat-form-field> 
+                             
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-12">
+                      <div class="form-group ">
+                        <div class="col-xl">
+          
+                            <mat-form-field>
+                               <input style="color:blue"  pattern='^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$' [(ngModel)]="billDetail.emailId" [ngModelOptions]="{standalone: true}"  matInput placeholder="Customer Email-Id" type="text" >
+                              </mat-form-field> 
+                             
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-12">
+                        <div class="form-group ">
+                          <div class="col-xl">
+            
+                              <mat-form-field>
+                                 <input style="color:blue"  [(ngModel)]="billDetail.customerOrderNo" [ngModelOptions]="{standalone: true}" matInput placeholder="Customer Order No" type="text" >
+                                </mat-form-field> 
+
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-md-4 col-sm-12">
+                          <div class="form-group ">
+                            <div class="col-xl">
+              
+                                <mat-form-field>
+                                   <input style="color:blue" maxlength="15" [(ngModel)]="billDetail.vatNo" [ngModelOptions]="{standalone: true}" matInput placeholder="VAT No" type="text" >
+                                  </mat-form-field> 
+  
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-sm-12">
+                          <div class="form-group ">
+                            <div class="col-xl">
+              
+                                <mat-form-field>
+                                   <input style="color:blue" [(ngModel)]="billDetail.address" [ngModelOptions]="{standalone: true}" matInput placeholder="Address" type="text" >
+                                  </mat-form-field> 
+  
+                            </div>
+                          </div>
+                        </div>
+
+
+
+
+        </div>
+      <!-- </form> -->
+    </mat-card>
+  </div>
+</div>
+
+<div style="padding-left:10px;margin-top:-10px;padding-right:10px;margin-left:-20px;margin-right:-20px">
+    <table width="100%"  class="table table-bordered" style="overflow-x: scroll;">
+    <tbody style="font-size:11px;font-weight: bold">
+    <tr style="background:#03a9f4; color:white;">
+      <th>Sno</th>
+      <th>Product Type</th>
+      <th>Item Name</th>
+      <th>Item Id</th>
+      <th>Slab Ref.No</th>
+      
+      <th>Dimensions</th>
+      <th>Selling Dms</th>
+      <th>No.Of Pcs</th>
+      <th colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;Dimensions(L,H,T)</th>
+      <th>Total SA</th>
+      <th>Currency</th>        
+      <th>SP</th>
+      <th>Dis%</th>
+      <th>Amount</th>
+      <th>VAT %</th>
+      <th>Total Amt</th>
+     
+    </tr>
+
+
+
+    <tr *ngFor="let sale of refSales;let i= index">
+      <td> {{i + 1}}</td>
+      <td>
+
+        <input [(ngModel)]="sale.productType" style="width:80px;height:30px" [ngModelOptions]="{standalone: true}" placeholder="Item Name"  type="text" readonly>
+
+      </td>
+
+      <td>
+        <input [(ngModel)]="sale.itemName" style="width:120px;height:30px" [ngModelOptions]="{standalone: true}" placeholder="Product Type"  type="text" readonly>
+      </td>
+      <td>
+        <input [(ngModel)]="sale.itemId" style="width:80px;height:30px" [ngModelOptions]="{standalone: true}" placeholder="Item Id"  type="text" readonly>
+      </td>
+      <td>
+      
+        <ng-select class="custom" [items]="dropdown" [ngModelOptions]="{standalone: true}"
+        bindLabel="refChildSales"
+        bindValue="refChildSales"
+        [(ngModel)]="sale.refChildSales"
+        [multiple]="true"
+        placeholder="Slab RefNo"
+        >
+      </ng-select>
+      </td>
+     
+      <td>
+        <input [(ngModel)]="sale.dimension" style="width:60px;height:30px" [ngModelOptions]="{standalone: true}" readonly  placeholder="Dimension" type="text">
+      </td>
+      <td>
+        <input [(ngModel)]="sale.sellingDimension" style="width:60px;height:30px" [ngModelOptions]="{standalone: true}" readonly  placeholder="SD" type="text">
+      </td>
+      <td>
+        <input [(ngModel)]="sale.noOfPcs" style="width:60px;height:30px" [ngModelOptions]="{standalone: true}" readonly  placeholder="No.Of Pcs" type="text">
+      </td>
+      
+      <td>
+        <input [(ngModel)]="sale.length" (change)="Amount(sale)" style="width:40px;height:30px;color:blue"[ngModelOptions]="{standalone: true}"   placeholder="Length" type="text">
+      </td>
+      <td>
+        <input [(ngModel)]="sale.height" (change)="Amount(sale)" style="width:40px;height:30px;color:blue"[ngModelOptions]="{standalone: true}"   placeholder="Height" type="text">
+      </td>
+      <td>
+        <input [(ngModel)]="sale.thickness" (change)="Amount(sale)" style="width:40px;height:30px;color:blue" [ngModelOptions]="{standalone: true}"   placeholder="Thickness" type="text">
+      </td>
+      <td>
+        <input [(ngModel)]="sale.saleArea" (change)="calcAmount(sale);Amount(sale)" style="width:60px;height:30px" [ngModelOptions]="{standalone: true}" readonly  placeholder="Total SA" type="text">
+
+   
+      </td>
+  
+  
+     
+        <td>
+            <input [(ngModel)]="sale.currency" style="width:60px;height:30px" [ngModelOptions]="{standalone: true}" readonly  placeholder="Currency" type="text">
+
+         
+        </td>
+       
+        <td>
+            <input [(ngModel)]="sale.spperArea" (change)="calcAmount(sale);" style="width:60px;height:30px;color:blue" [ngModelOptions]="{standalone: true}"   placeholder="SP" type="text">
+
+         
+        </td>
+        <td>
+            <input [(ngModel)]="sale.discount" (input)="calcAmount(sale)" style="width:60px;height:30px;color: blue" [ngModelOptions]="{standalone: true}"   placeholder="Dis" type="text">
+
+              <div>
+              <small *ngIf="sale.discount > 100" style="color:red">Dis should not exceed 100</small>
+            </div>
+            </td>
+      <td>
+          <input [(ngModel)]="sale.amount" (input)="calcAmount(sale)" style="width:60px;height:30px" [ngModelOptions]="{standalone: true}" readonly  placeholder="Amt" type="text">
+                </td>
+    
+  <td>
+      <input [(ngModel)]="sale.vat" (input)="calcAmount(sale)" style="width:60px;height:30px;color:blue;" [ngModelOptions]="{standalone: true}"   placeholder="VAT" type="text">
+
+   <div><small *ngIf="sale.vat > 100" style="color:red">VAT should not exceed 100</small>
+   </div> 
+  </td>
+ 
+ 
+  <td> 
+      <input [(ngModel)]="sale.netAmount" (input)="calcAmount(sale)" style="width:60px;height:30px" [ngModelOptions]="{standalone: true}" readonly  placeholder="Net Amt" type="text">
+
+
+  </td>
+    
+    
+     
+
+    </tr> 
+  
+   
+   
+    </tbody>
+</table>
+</div>
+
+<ng-template #basic let-modal>
+    <div class="modal-header" style="background-color: #03a9f4; color:white;">
+      <h4 class="modal-title" id="modal-basic-title">Sale Information</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">              
+            <div style="padding-left:10px;padding-right:10px">
+                <table class="table table-bordered"  id="value">
+                    <tr  style="background:#03a9f4; color:white;">
+                    <th>Sno</th>
+                    <th>Product Type</th>
+                    <th>Length</th>
+                    <th>Height</th>
+                    <th>Thickness</th>
+                    <th>Selling Price</th>
+                    <th>Discount</th>
+                    <th>Amount</th>
+                    <th>Vat</th>
+                    <th>Net Amount</th>
+                  </tr>
+                  <tr *ngFor="let sale of refSales;let i= index">
+                    <td>{{i+1}}</td>
+                    <td>{{sale.productType}}</td>
+                    <td>{{sale.length}}</td>
+                    <td>{{sale.height}}</td>
+                    <td>{{sale.thickness}}</td>
+                    <td>{{sale.spperArea}}</td>
+                    <td>{{sale.discount}}</td>
+                    <td>{{sale.amount}}</td>
+                    <td>{{sale.vat}}</td>
+                    <td>{{sale.netAmount}}</td>
+                  </tr>
+                </table>
+                
+                <h1 style="padding-left:550px;font-weight:bold"> Total:{{total}}</h1>
+              </div>
+       </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary mat-ripple" md-ripple="submit" (click)="showModal(basic1)">Save</button>
+
+        <button type="button" class="btn btn-danger mat-ripple" (click)="modal.close('Save click')">No</button>
+   </div>
+  </ng-template>
+
+  <ng-template #basic1 let-modal>
+      <div class="modal-header" style="background-color: #03a9f4; color:white;">
+        <h4 class="modal-title" id="modal-basic-title">Total</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+      </div>
+      <div class="modal-body">        
+        <div class="row">  
+            <div class="col-md-6">
+                <div class="form-group ">
+                  <div class="col-xl">
+                      <mat-form-field>
+                          <input [(ngModel)]="billDetail.total" [ngModelOptions]="{standalone: true}"  matInput placeholder="Total" type="text" readonly>
+            
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+       
+            
+
+
+
+
+    </div>
+                        <div class="modal-footer">           
+                            <button type="button" class="btn btn-primary"  (click)="save()">Submit</button> 
+                          <button type="button" class="btn btn-danger" (click)="modal.close('Save click');">Close</button>
+                        </div>
+                      </ng-template>
+                     

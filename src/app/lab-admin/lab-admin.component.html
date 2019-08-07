@@ -1,0 +1,160 @@
+<div style="padding-left: 10px;padding-top: 10px;padding-right: 10px;margin-bottom: 10px;
+">
+  <mat-card style="background-color: #03a9f4; color:white; padding: 15px;">
+    <mat-card-title>LABADMIN VIEW
+
+
+    </mat-card-title>
+
+
+  </mat-card>
+
+
+</div>
+
+<div style="padding-left:10px;padding-top:10px;padding-right:10px">
+
+  <table width="100%" class="table table-striped table-condensed" style="overflow-y: scroll;">
+    <tr style="background:rgb(53, 49, 49)">
+      <th>S.No</th>
+
+      <th>Registration #</th>
+      <th>Lab Service</th>
+      <th>Patient Type</th>
+      <th>Date</th>
+      <th>Referredby Dr</th>
+      <th>Status</th>
+      <th>Complete</th>
+    </tr>
+    <tr *ngFor="let data of Ser |paginate: { itemsPerPage: 15, currentPage: p },let i=index">
+      <td>{{i+1}}</td>
+      <td>{{data.reg_id}}</td>
+      <td><a style="color:green" (click)="open(basic,data);send(data)">{{data.serviceName}} </a></td>
+      <td>{{data.pType}}</td>
+      <td>{{data.enteredDate|date}}</td>
+      <td>{{data.docName}}</td>
+      <td>{{data.status}}</td>
+      <td>
+        <mat-radio-group>
+          <!-- <mat-radio-button value="1" >View</mat-radio-button>&nbsp; -->
+          <mat-radio-button value="2" (click)="save(data)">Approve</mat-radio-button>&nbsp;
+          <mat-radio-button value="3">Deny</mat-radio-button>
+        </mat-radio-group>
+      </td>
+
+    </tr>
+  </table>
+  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+</div>
+
+
+<ng-template #basic let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Lab Report Generation</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+              </button>
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal" class="form-inline" [formGroup]="AdminForm">
+      <div class="row">
+        <div class=" col-md-6">
+          <div class="form-group">
+            <div class="col-xl">
+
+              <mat-form-field>
+
+                <input [(ngModel)]="reg_id" formControlName="reg_id" matInput placeholder="Reg#" type="text">
+              </mat-form-field>
+
+            </div>
+          </div>
+        </div>
+
+        <div class=" col-md-6">
+          <div class="form-group ">
+            <div class="col-xl">
+
+              <mat-form-field>
+                <input [(ngModel)]="serviceName" formControlName="serviceName" matInput placeholder="Reg#" type="text">
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <table width="100%" class="table table-striped table-condensed" style="overflow-y: scroll;">
+          <tr>
+          
+      
+            <th>MeasureName</th>
+            <th>Actual Value</th>
+            <th>Range</th>
+          </tr>
+          <tr *ngFor="let data of Measures;let i=index">
+        
+              
+             <td><input [value]="data.measureName"  type="text" readonly></td>
+             <td> <input  formControlName='value' [(ngModel)]="Measures[i].value" placeholder="Count" type="text"></td>
+             <td><input [value]="data.minRange +'-' +data.maxRange" type="text" readonly></td>
+          </tr>
+        </table>
+
+        <!-- <div style="width:500px;height:300px;border:red">
+         
+  
+              <textarea  [(ngModel)]="note" matInput placeholder="Comments" type="text"></textarea>
+         
+      
+        </div> -->
+
+        COMMENTS:<textarea rows="10" [(ngModel)]="comment" formControlName="comment"  cols="500">
+        </textarea>
+    </form>
+
+
+    
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-outline-primary" (click)="open1(basic1)">submit</button>
+    <button type="button" class="btn btn-outline-danger" (click)="modal.close('Save click')">close</button>
+   
+  </div>
+</ng-template>
+
+
+<ng-template #basic1 let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Do You Want To Save Details?</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+    </div>
+    <div class="modal-body">
+     
+        <button type="button" class="btn btn-outline-primary" (click)="open2(basic2)">submit</button>&nbsp;&nbsp;
+        <button type="button" class="btn btn-outline-danger" (click)="modal.close('Save click')">close</button>
+        
+  
+        </div>
+      
+      </ng-template>
+
+
+<ng-template #basic2 let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Print Report</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+      </div>
+    <div class="modal-body">
+     
+        <button type="submit" class="btn btn-outline-primary" (click)="report(AdminForm.value);function(data)">PrintReport</button>&nbsp;&nbsp;
+        <button type="button" class="btn btn-outline-danger" (click)="modal.close('Save click')">close</button>
+        
+  
+        </div>
+      
+      </ng-template>

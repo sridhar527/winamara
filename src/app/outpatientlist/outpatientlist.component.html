@@ -1,0 +1,94 @@
+<div style="padding-left: 10px;padding-top: 10px;padding-right: 10px;margin-bottom: 10px;
+">
+  <mat-card style="background-color: #03a9f4; color:white; padding: 15px;">
+    <mat-card-title>OUTPATIENT LIST
+
+
+    </mat-card-title>
+
+
+  </mat-card>
+
+
+</div>
+<div style="padding-left:10px;padding-top:10px;padding-right:10px">
+    <mat-card>
+      <label>
+      <mat-form-field>
+         
+                <input [(ngModel)]="filter"  matInput placeholder="Search" type="text" >
+              </mat-form-field>
+            </label>
+  
+  
+    </mat-card>
+  
+  </div>
+
+  
+<div style="padding-left:10px;padding-top:10px;padding-right:10px">
+  
+    <table width="100%" class="table  table-condensed" style="overflow-y: scroll;">
+      <tr style="background:rgb(53, 49, 49)">
+        <th>RegId</th>
+  
+        <th>Name</th>
+        <th>Patient Type</th>
+      
+        <th>ConsultingDr</th>
+        <!-- <th>Advance Amount</th>
+        <th>Cost so far</th> -->
+     <!-- <th>Bills</th> -->
+     <th>Services Availed</th>
+     <th>Tracker</th>
+      </tr>
+      <tr *ngFor="let data of olist|filter:filter|paginate: { itemsPerPage: 15, currentPage: p };let i=index">
+       <td>{{data.regId}}</td>
+  <td>{{data.name}}</td>
+  <td>{{data.patType}}</td>
+
+  <td>{{data.doctor}}</td>
+  <!-- <td> <a style="color:green" (click)="showReports(basic2);getBills(data)">Bill</a></td>   -->
+  <!-- <td>{{data.advance}}</td>
+  <td>{{data.soFar}}</td> -->
+  <td> <a style="color:green" (click)="showNotes(data)">services</a></td>
+  <td> <a style="color:green" (click)="showReports(basic2);getBills(data)">Tracker</a></td>
+      </tr>
+    </table>
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  </div>
+
+  <ng-template #basic2 let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">ALL BILLS</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <table class="table table-">
+              <thead>
+              <th> Name </th>
+              <th> Action </th>
+              </thead>
+              <tbody>
+<tr *ngFor="let item of Bills | keyvalue">
+
+    <td> {{item.key}}</td>
+    <td><a href="{{item.value}}" target="_blank">open</a></td>
+</tr>
+</tbody>
+
+</table>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-danger" (click)="modal.close('Save click')">cancel</button>
+  
+       
+  
+     
+    </div>
+    </ng-template>
+  
+  

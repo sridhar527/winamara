@@ -1,0 +1,348 @@
+<div style="padding-left: 10px;padding-top: 10px;padding-right: 10px;margin-bottom: 10px;
+">
+  <mat-card style="background-color: #03a9f4; color:white; padding: 15px;">
+    <mat-card-title>Raise Invoice
+        
+          <button style="    margin-right: 10px;
+        float: right;
+        background-color: white;
+        color: black !important; "  class="btn btn-primary mat-ripple" md-ripple="reset" (click)="reset()">Reset</button>    &nbsp;
+       <button style="    margin-right: 10px;
+        float: right;
+        background-color: white;
+        color: black !important; margin-right: 10px;" class="btn btn-primary mat-ripple" [disabled]="!InvoiceForm.valid" (click)="showModal1(basic1)">Save</button> &nbsp;
+    </mat-card-title>
+  </mat-card>
+  </div>
+  <div class="content">
+      <div style="padding-left:10px;padding-right:10px">
+        <mat-card style="padding-left:50infopx;">
+          <form class="form-horizontal" class="form-inline" [formGroup]="InvoiceForm">
+            <div class="row">
+                <div class="col-lg-3 col-md-4 col-sm-12 ">
+                    <div class="form-group">
+                      <div class="col-xl">
+        
+                        <mat-form-field>
+        
+                          <input [value]="this.Invoice[2].nextInvoiceId" matInput placeholder="Invoice Id#" type="text">
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-4 col-sm-12 ">
+                      <div class="form-group">
+                        <div class="col-xl">
+                            <mat-form-field>
+                                <input required [(ngModel)]="date"  [formControl]="InvoiceForm.controls['date']" matInput [matDatepicker]="picker" placeholder="Date">
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                              </mat-form-field>
+                              <div class="text text-danger" *ngIf="InvoiceForm.controls['date'].touched && !InvoiceForm.controls['date'].valid"> Date is Mandatory</div>
+
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-12 ">
+                        <div class="form-group">
+                          <div class="col-xl">
+                              <mat-form-field>
+                                  <mat-select required [(ngModel)]="raisedBy"  [formControl]="InvoiceForm.controls['raisedBy']" placeholder="Raised By">
+                                      <mat-option>None</mat-option>
+                                      <mat-option *ngFor="let c of Invoice[0]" [value]="c.ofcname">
+                
+                                        {{c.ofcname}}</mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                                <div class="text text-danger" *ngIf="InvoiceForm.controls['raisedBy'].touched && !InvoiceForm.controls['raisedBy'].valid"> RaisedBy is Mandatory</div>
+
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-md-4 col-sm-12 ">
+                          <div class="form-group">
+                            <div class="col-xl">
+                                <mat-form-field>
+                                    <mat-select required [(ngModel)]="raisedTo"  [formControl]="InvoiceForm.controls['raisedTo']" placeholder="Raised To">
+                                      <mat-option>None</mat-option>
+                                      <mat-option *ngFor="let c of Invoice[1]" [value]="c.clientname">
+                
+                                          {{c.clientname}}</mat-option>
+                                    </mat-select>
+                                  </mat-form-field>
+                                  <div class="text text-danger" *ngIf="InvoiceForm.controls['raisedTo'].touched && !InvoiceForm.controls['raisedTo'].valid"> RaisedTo is Mandatory</div>
+
+                            </div>
+                          </div>
+                        </div>
+
+
+
+            </div>
+          </form>
+        </mat-card>
+      </div>
+  </div><br>
+  <div class="row">
+      <div class="col-md-12">
+      <div style="padding-left:10px;padding-right:10px">
+        <mat-card style="padding-left:50infopx;">
+          <form class="form-horizontal" class="form-inline">
+              <mat-card-title style="color:#7266ba">Carrier Information</mat-card-title>
+            <div class="row">
+
+                <div class="col-lg-3 col-md-4 col-sm-12 ">
+                    <div class="form-group">
+                      <div class="col-xl">
+        
+                        <mat-form-field>
+        
+                          <input [(ngModel)]="preCarriageBy"  [formControl]="InvoiceForm.controls['preCarriageBy']" matInput placeholder="Pre-Carriage By" type="text">
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-4 col-sm-12 ">
+                      <div class="form-group">
+                        <div class="col-xl">
+          
+                          <mat-form-field>
+          
+                            <input [(ngModel)]="vesselFlightNo"  [formControl]="InvoiceForm.controls['vesselFlightNo']" matInput placeholder="Vessel/Flight No" type="text">
+                          </mat-form-field>
+                        </div>
+                      </div>
+                    </div>
+                  <div class="col-lg-3 col-md-4 col-sm-12 ">
+                      <div class="form-group">
+                        <div class="col-xl">
+          
+                          <mat-form-field>
+          
+                            <input [(ngModel)]="placeOfReceiptByPreCarrier"  [formControl]="InvoiceForm.controls['placeOfReceiptByPreCarrier']" matInput placeholder="Place of Reciept by Pre-carrier" type="text">
+                          </mat-form-field>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-12 ">
+                        <div class="form-group">
+                          <div class="col-xl">
+            
+                            <mat-form-field>
+            
+                              <input [(ngModel)]="portOfLoading"  [formControl]="InvoiceForm.controls['portOfLoading']" matInput placeholder="Port of Loading" type="text">
+                            </mat-form-field>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-md-4 col-sm-12 ">
+                          <div class="form-group">
+                            <div class="col-xl">
+              
+                              <mat-form-field>
+              
+                                <input [(ngModel)]="portOfDischarge"  [formControl]="InvoiceForm.controls['portOfDischarge']" matInput placeholder="Port of Discharge" type="text">
+                              </mat-form-field>
+                            </div>
+                          </div>
+                        </div>
+                    <div class="col-lg-3 col-md-4 col-sm-12 ">
+                        <div class="form-group">
+                          <div class="col-xl">
+            
+                            <mat-form-field>
+            
+                              <input [(ngModel)]="countryOfOriginOfGoods"  [formControl]="InvoiceForm.controls['countryOfOriginOfGoods']" matInput placeholder="Country of Origin of Goods" type="text">
+                            </mat-form-field>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-md-4 col-sm-12 ">
+                          <div class="form-group">
+                            <div class="col-xl">
+              
+                              <mat-form-field>
+              
+                                <input [(ngModel)]="countryOfFinalDestination"  [formControl]="InvoiceForm.controls['countryOfFinalDestination']" matInput placeholder="Country of Final Destination" type="text">
+                              </mat-form-field>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-sm-12 ">
+                            <div class="form-group">
+                              <div class="col-xl">
+                
+                                <mat-form-field>
+                
+                                  <input [(ngModel)]="placeOfDelivery"  [formControl]="InvoiceForm.controls['placeOfDelivery']" matInput placeholder="Place of Delivery" type="text">
+                                </mat-form-field>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-4 col-sm-12 ">
+                              <div class="form-group">
+                                <div class="col-xl">
+                  
+                                  <mat-form-field>
+                  
+                                    <input [(ngModel)]="termsOfDelivery"  [formControl]="InvoiceForm.controls['termsOfDelivery']" matInput placeholder="Terms of Delivery" type="text">
+                                  </mat-form-field>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-12 ">
+                                <div class="form-group">
+                                  <div class="col-xl">
+                    
+                                    <mat-form-field>
+                    
+                                      <input [(ngModel)]="paymentTerms"  [formControl]="InvoiceForm.controls['paymentTerms']" matInput placeholder="Payment Terms" type="text">
+                                    </mat-form-field>
+                                  </div>
+                                </div>
+                              </div>
+              
+            </div>
+          </form>
+        </mat-card>
+      </div>
+      </div>
+  </div><br>
+  <div class="row">
+      <div class="col-md-12">
+      <div style="padding-left:10px;padding-right:10px">
+       
+          
+              <mat-card-title style="color:#7266ba">Description Of Goods</mat-card-title>
+              <table width="100%" class="table table-bordered" style="overflow-y: scroll;">
+                  <tr style="background:#03a9f4; color:white;">
+                    <th>SNo</th>
+                    <th>Goods Name</th>
+                    <th>Kind Of Packages</th>
+                    <th>No.Of Packages</th>
+                    <th>Length(cm)</th>
+                    <th>Height(cm)</th>
+                    <th>Area(Sqm)</th>
+                    <th>No.Of Crates</th>
+                    <th>Total(Sqm)</th>
+                    <th>Action</th>
+                </tr>
+                <tr  *ngFor="let item of invoice;let i= index">
+                  <td>{{i+1}}</td>
+                  <td>
+                     <input [(ngModel)]="item.goodsName" [ngModelOptions]="{standalone: true}" style="width:100px"   placeholder="Goods Name" type="text">
+                    </td>
+                    <td>
+                        <input [(ngModel)]="item.kindOfPackages" [ngModelOptions]="{standalone: true}" style="width:100px"    placeholder="Kind Of Packages " type="number">
+                    </td> 
+                  <td>
+                    <input [(ngModel)]="item.noOfPackages" [ngModelOptions]="{standalone: true}"  style="width:100px"  (change)="calcAmount(item)"  placeholder="No.Of Packages " type="number">
+                  </td>
+                 
+                  <td>
+                    <input [(ngModel)]="item.length" [ngModelOptions]="{standalone: true}" placeholder="length(cm)" style="width:90px" (change)="calcAmount2(item)" type="text">
+                  </td>
+                  <td>
+                    <input  [(ngModel)]="item.height" [ngModelOptions]="{standalone: true}" placeholder="height(cm)" style="width:90px" (change)="calcAmount2(item)" type="text">
+                  </td>
+                  <td>
+                    <input [(ngModel)]="item.areaSqMt" [ngModelOptions]="{standalone: true}"  style="width:90px"   (change)="calcAmount(item)"  placeholder="Area(Sqm) " type="number" readonly>
+                  </td>
+                  <td>
+                    <input [(ngModel)]="item.noOfCrates" [ngModelOptions]="{standalone: true}"  style="width:90px"   (change)="calcAmount(item)"  placeholder="No.Of Crates " type="number">
+                  </td>
+                  <td>
+                    <input [(ngModel)]="item.total" [ngModelOptions]="{standalone: true}"  style="width:90px" (keydown.tab)="addMore($event)" (keydown.enter)="addMore($event)"  placeholder="Total(Sqm)" readonly></td>
+                  <td>
+                      <a (click)="addMore($event)"><i class="fa fa-plus" style="font-size:18px;color:blue"></i></a>&nbsp;
+                      <a *ngIf="invoice.length > 1" (click)="removeSaleItem(i);"><i class="fa fa-close" style="font-size:18px;color:red"></i></a>
+                  </td>
+                </tr>
+</table>                
+            
+            
+         </div>
+        </div>
+    </div>
+
+
+
+
+    <ng-template #basic1 let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Sale Details</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+      </div>
+      <div class="modal-body">        
+        <div class="row">              
+            <div style="padding-left:10px;padding-right:10px">
+                <table width="100%" class="table table-bordered" style="overflow-y: scroll;">
+                  <tr style="background:#03a9f4; color:white;">
+                    <th>Sno</th>
+                    <th>Goods Name</th>
+                    <th>No.Of Packages</th>
+                    <th>Area(Sqm)</th>
+                    <th>Total(Sqm)</th>
+                  </tr>
+                  <tr *ngFor="let item of invoice;let i= index">
+                    <td>{{i+1}}</td>
+                    <td>{{item.goodsName}}</td>
+                    <td>{{item.noOfPackages}}</td>
+                    <td>{{item.areaSqMt}}</td>
+                    <td>{{item.total}}</td>
+                  </tr>
+                </table>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">           
+          <button type="button" class="btn btn-primary" (click)="showModal(basic)">Submit</button> 
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save click');">Close</button>
+      </div>
+    </ng-template>
+
+    <ng-template #basic let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Save Particulars</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+      </div>
+      <div class="modal-body">        
+        <div class="row">  
+           
+          <div class="col-md-6">
+            <div class="form-group ">
+              <div class="col-xl">
+                <mat-form-field>
+                  <input [(ngModel)]="amount" matInput placeholder="Amount" type="text" readonly>
+    
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+           <!-- <div class=" col-md-6">
+              <label>Payment Type :</label>
+            <div class="form-group">
+              <div class="col-xl">                    
+                <select style="width:150px" [(ngModel)]="newSale.paymentType" placeholder="Type" required>
+                  <option value="Advance">Advance</option>
+                  <option value="Cash">Cash</option>
+                  <option value="Card">Card</option>
+                  <option value="CreditCard">Credit Card</option>
+                  <option value="DebitCard">Debit Card</option>
+                  <option value="Dues">Dues</option>
+                </select>
+    
+              </div>
+            </div>
+          </div>   -->
+          </div>
+      </div>
+      <div class="modal-footer">           
+          <button type="button" class="btn btn-primary"  (click)="save()">Submit</button> 
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save click');">Close</button>
+      </div>
+    </ng-template>

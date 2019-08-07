@@ -1,0 +1,263 @@
+<div style="padding-left: 10px;padding-top: 10px;padding-right: 10px;margin-bottom: 10px;
+">
+  <mat-card style="background-color: #03a9f4; color:white; padding: 15px;">
+    <mat-card-title>GRN DETAILS
+
+      <button style="margin-right: 10px;
+      float: right;
+      background-color: white;
+      color: black !important;"
+        class="btn btn-primary mat-ripple" md-ripple="reset" (click)="reset()">RESET</button> &nbsp;&nbsp;
+      <button style="margin-right: 10px;
+      float: right;
+      background-color: white;
+      color: black !important; "
+        class="btn btn-primary mat-ripple" md-ripple="submit"   [disabled]="!ProForm.valid"   (click)="save(ProForm.value);">SAVE</button>
+
+    </mat-card-title>
+
+
+  </mat-card>
+
+</div>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+    
+<div class="content">
+    <div style="padding-left:10px;padding-right:10px">
+      <mat-card style="padding-left:50px;">
+  
+         <form class="form-horizontal" class="form-inline" [formGroup]="ProForm"> 
+  
+          <div class="row">
+            <div class="col-lg-3 col-md-4 col-sm-12">
+              <div class="form-group ">
+                <div class="col-xl">
+  
+                  <mat-form-field>
+  
+                    <input [value]="Proc[0]?Proc[0].procurementId:''" matInput placeholder="GRN_ID" type="text" readonly>
+                  </mat-form-field>
+  
+                </div>
+              </div>
+            </div>
+  
+  
+            <div class="col-lg-3 col-md-4 col-sm-12">
+              <div class="form-group ">
+                <div class="col-xl">
+                  <mat-form-field>
+                    <input [max]="maxDate" [(ngModel)]="date_of_procurement" [formControl]="ProForm.controls['date_of_procurement']" matInput [matDatepicker]="picker"
+                      placeholder="GRN Date">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
+  
+                </div>
+             
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-12">
+              <div class="form-group ">
+                <div class="col-xl">
+  
+                  <mat-form-field>
+                    <mat-select [(ngModel)]="status" [formControl]="ProForm.controls['status']" placeholder="Status" disabled >
+  
+                      <mat-option value="Not Approved">Not Approved</mat-option>
+  
+  
+                    </mat-select>
+                  </mat-form-field>
+  
+                </div>
+              </div>
+            </div>
+  
+  
+            <div class="col-lg-3 col-md-4 col-sm-12">
+              <div class="form-group ">
+                <div class="col-xl">
+         
+                  <mat-form-field>
+                          <mat-select required [(ngModel)]="VendorName"  placeholder="Vendor Name"  [formControl]="ProForm.controls['VendorName']">
+                         <mat-option>none</mat-option>
+                            <mat-option *ngFor="let data of Proc[1];let i=index" [value]="data.vendorName">
+                              {{data.vendorName}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field> 
+                </div>
+                <div class="text text-danger" *ngIf="ProForm.controls['VendorName'].touched && !ProForm.controls['VendorName'].valid">Mandatory(if not entered)</div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-12">
+              <div class="form-group ">
+                <div class="col-xl">
+  
+                  <mat-form-field>
+                    <mat-select required [(ngModel)]="procurement_type" [formControl]="ProForm.controls['procurement_type']" placeholder="Procurement Type">
+                      <mat-option value="none">None</mat-option>
+                      <mat-option value="With PO">With PO</mat-option>
+                      <mat-option value="Without PO">Without PO</mat-option>
+  
+                    </mat-select>
+                  </mat-form-field>
+  
+                </div>
+                <div class="text text-danger" *ngIf="ProForm.controls['procurement_type'].touched && !ProForm.controls['procurement_type'].valid">Mandatory(if not entered)</div>
+              </div>
+            </div>
+  
+  
+            <div class="col-lg-3 col-md-4 col-sm-12">
+              <div class="form-group ">
+                <div class="col-xl">
+  
+                  <mat-form-field>
+                    <input required [(ngModel)]="po_num" [formControl]="ProForm.controls['po_num']" matInput placeholder="PO #" type="text">
+  
+                  </mat-form-field>
+  
+                </div>
+                <div class="text text-danger" *ngIf="ProForm.controls['po_num'].touched && !ProForm.controls['po_num'].valid">Mandatory(if not entered)</div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-12">
+              <div class="form-group ">
+                <div class="col-xl">
+  
+                  <mat-form-field>
+                    <input required [(ngModel)]="in_num" [formControl]="ProForm.controls['in_num']" matInput placeholder="INVOICE #" type="text">
+  
+                  </mat-form-field>
+  
+                </div>
+                <div class="text text-danger" *ngIf="ProForm.controls['in_num'].touched && !ProForm.controls['in_num'].valid">Mandatory(if not entered)</div>
+                
+              </div>
+            </div>
+  
+  
+            <div class="col-lg-3 col-md-4 col-sm-12">
+              <div class="form-group ">
+                <div class="col-xl">
+  
+                  <mat-form-field>
+                    <mat-select required [(ngModel)]="currency" [formControl]="ProForm.controls['currency']" placeholder="Currency">
+                      <mat-option>None</mat-option>
+                      <mat-option value="INR">INR</mat-option>
+                      <mat-option value="$">$</mat-option>
+                      <mat-option value="Euro">Euro</mat-option>
+  
+                    </mat-select>
+                  </mat-form-field>
+  
+                </div>
+
+                <div class="text text-danger" *ngIf="ProForm.controls['currency'].touched && !ProForm.controls['currency'].valid">Mandatory(if not entered)</div>
+              </div>
+            </div>
+  
+         
+  
+            <div class="col-lg-3 col-md-4 col-sm-12">
+              <div class="form-group">
+                <div class="col-xl">
+                  <mat-form-field>
+                    <mat-select  required [(ngModel)]="location" [formControl]="ProForm.controls['location']" placeholder="location">
+                      <mat-option>None</mat-option>
+                      <mat-option value="Miyapur">Miyapur</mat-option>
+                      <mat-option value="KPHB">KPHB</mat-option>
+  
+  
+                    </mat-select>
+                  </mat-form-field>
+                  <div class="text text-danger" *ngIf="ProForm.controls['location'].touched && !ProForm.controls['location'].valid">Please select Location </div>
+                </div>
+              </div>
+            </div>
+
+            
+           </div> 
+  
+         </form>  
+  
+      </mat-card>
+    </div>
+  
+    <table width="100%" class="table table-striped table-condensed" style="overflow-y: scroll;">
+      <tr style="background:rgb(53, 49, 49);font-size:13px">
+        <th>SNo</th>
+        <th>Medicine Name</th>
+        <th>Batch #</th>
+        <th>Manuf By</th>
+        <th>Manuf Dt</th>
+  
+        <th>Expiry Dt</th>
+        <th>Quantity</th>
+       
+        <th>BONUS</th>
+        <th>MRP</th>
+        <th>CP</th>
+  <th>Discount</th>
+        <th>GST</th>
+        <th>Action</th>
+      
+      </tr>
+    
+      <tr *ngFor="let item of detail;let i=index">
+        <td>{{i+1}}</td>
+        <td>
+          
+                <select style="width:200px"  placeholder="Medicine name" [(ngModel)]="item.itemName">
+            
+                  <option *ngFor="let data of Proc[2];let i=index" [value]="data.name" (click)="send(i,data)">
+                    {{data.name}}
+                  </option>
+                </select>
+              
+               <!-- <ng-select style="width:200px" [items]="Proc[2]"
+                   bindLabel="name"
+                   placeholder="Medicine Name"
+                   [(ngModel)]="name">
+        </ng-select>  -->
+        </td>
+        
+           {{name}}
+        <td><input [(ngModel)]="item.batch" matInput placeholder="Batch #" type="text"></td>
+        <td><input [(ngModel)]="item.manf" matInput placeholder="Manuf by" type="text"></td>
+        <td>
+          <input [(ngModel)]= "item.manufacturedDate" matInput placeholder="Manuf Dt" type="date">
+        </td>
+  
+  
+        <td>
+          <input [(ngModel)]= "item.expDate" matInput placeholder="Expiry Dt" type="date">
+        </td>
+        <td>
+          <input [(ngModel)]= "item.quantity" matInput placeholder="Quantity" type="text">
+        </td>
+        <td>
+          <input [(ngModel)]= "item.freeSample" matInput placeholder="BONUS" type="text">
+        </td>
+      
+        <td>
+          <input [(ngModel)]= "item.mrp" matInput placeholder="SP" type="text">
+        </td>
+        <td>
+          <input [(ngModel)]= "item.costPrice" matInput placeholder="CP" type="text">
+        </td>
+        <td>
+          <input [(ngModel)]= "item.discount" matInput placeholder="Discount" type="text">
+        </td>
+        <td>
+          <input [(ngModel)]= "item.gst" matInput placeholder="GST" type="text" (keydown.tab)="addMore($event)" (keydown.enter)="addMore($event)">
+        </td>
+     
+        <td>
+            <a (click)="removeSaleItem(i);"><i class="fa fa-close" style="font-size:18px;color:red"></i></a>
+            </td>
+         
+      </tr>
+    </table>

@@ -1,0 +1,774 @@
+<div style="padding-left: 10px;padding-top: 10px;padding-right: 10px;margin-bottom: 10px;
+">
+  <mat-card style="background-color: #03a9f4; color:white; padding: 15px;">
+    <mat-card-title>EXISTING PATIENTS
+
+
+    </mat-card-title>
+
+
+
+
+  </mat-card>
+
+
+</div>
+<div style="padding-left:10px;padding-top:10px;padding-right:10px">
+  <mat-card>
+    <label>
+    <mat-form-field>
+       
+              <input [(ngModel)]="filter"  matInput placeholder="Search By Name/Phone" type="text" >
+            </mat-form-field>
+          </label>
+
+
+  </mat-card>
+
+</div>
+
+
+<div style="padding-left:10px;padding-top:10px;padding-right:10px">
+
+  <table width="100%" class="table table-striped table-condensed" style="overflow-y: scroll;">
+    <tr style="background:rgb(53, 49, 49);">
+      <th>S.No</th>
+      <th>PatientName</th>
+      <th>EDIT</th>
+      <th>UMR#</th>
+      <th>REG#</th>
+      <!-- <th>DATE Of JOINING</th> -->
+      <th (click)="sortDate('a')"
+      >DATE Of JOINING
+      <span>
+      <span [hidden]="!a"></span>
+          <span [hidden]="reverse">▼</span>
+          </span>
+    </th>
+      <th>Phone#</th>
+      <th>ENROLL</th>
+    </tr>
+    <tr *ngFor="let data of PatientAll| filter: filter|orderBy: key : reverse|paginate: { itemsPerPage: 15, currentPage: p };let i=index">
+      <td>{{i+1}}</td>
+      <td> {{data.firstName}} {{data.lastName}}</td>
+      <td><a style="color:blue" (click)="open(basic,data)">Edit</a></td>
+      <td>{{data.umr}}</td>
+      <td>{{data.vPatientRegistration[0].regId}}</td>
+
+      <td>
+        {{data.vPatientRegistration[0].regDate | date : "dd.MM.y"}}
+      </td>
+
+      <td>{{data.mobile}}</td>
+      <td> <a style="color:green" (click)="open(basic1,data)">Enroll</a></td>
+
+      </tr>
+
+  </table>
+  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+</div>
+
+<ng-template #basic let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Patient Edit Form</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+  <div class="modal-body">
+
+    <form class="form-horizontal" class="form-inline" [formGroup]="RegisterForm">
+
+      <div class="row">
+        <div class="col-lg-4 col-md-3">
+          <div class="form-group">
+            <div class="col-xl">
+
+              <mat-form-field>
+
+                <input [(ngModel)]="umr" formControlName="umr" matInput placeholder="UMR#" type="text" readonly>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-3">
+          <div class="form-group">
+            <div class="col-xl">
+
+              <mat-form-field>
+
+                <input [(ngModel)]="regId" formControlName="regId" matInput placeholder="Registration#" type="text" readonly>
+              </mat-form-field>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-3">
+          <div class="form-group">
+            <div class="col-xl">
+
+              <mat-form-field>
+
+                <input value={{regDate|date}} formControlName="regDate" matInput placeholder="Registration Date" type="text" readonly>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="col-lg-4 col-md-3">
+          <div class="form-group">
+            <div class="col-xl">
+
+              <mat-form-field>
+
+                <input [(ngModel)]="regValidity" formControlName="regValidity" matInput placeholder="Registration Validity" type="text" readonly>
+              </mat-form-field>
+            </div>
+          </div>
+        </div> -->
+
+        <div class="col-lg-4 col-md-3">
+          <div class="form-group">
+            <div class="col-xl">
+
+              <mat-form-field>
+
+                <input [(ngModel)]="title" formControlName="title" matInput placeholder="Title" type="text" readonly>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-3">
+          <div class="form-group">
+            <div class="col-xl">
+
+              <mat-form-field>
+
+                <input [(ngModel)]="firstName" formControlName="firstName" matInput placeholder="FirstName" type="text">
+              </mat-form-field>
+            </div>
+            <div class="text text-danger" *ngIf="RegisterForm.controls['firstName'].touched && !RegisterForm.controls['firstName'].valid">Mandatory(if not entered)</div>
+            <div class="text text-danger" *ngIf="RegisterForm.controls['firstName'].errors?.minlength">firstname should have min 3 characters</div>
+            <div class="text text-danger" *ngIf="RegisterForm.controls['firstName'].errors?.maxlength">firstname should have max 50 characters</div>
+            <div class="text text-danger" *ngIf="RegisterForm.controls['firstName'].errors?.pattern">Allow only alphabets</div>
+
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-3">
+          <div class="form-group">
+            <div class="col-xl">
+
+              <mat-form-field>
+
+                <input [(ngModel)]="lastName" formControlName="lastName" matInput placeholder="LastName" type="text">
+              </mat-form-field>
+            </div>
+            <div class="text text-danger" *ngIf="RegisterForm.controls['lastName'].touched && !RegisterForm.controls['lastName'].valid">Mandatory(if not entered)</div>
+            <div class="text text-danger" *ngIf="RegisterForm.controls['lastName'].errors?.minlength">lastName should have min 3 characters</div>
+            <div class="text text-danger" *ngIf="RegisterForm.controls['lastName'].errors?.maxlength">lastName should have max 50 characters</div>
+            <div class="text text-danger" *ngIf="RegisterForm.controls['lastName'].errors?.pattern">Allow only alphabets</div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-3">
+          <div class="form-group">
+            <div class="col-xl">
+
+              <mat-form-field>
+
+                <input [(ngModel)]="middleName" formControlName="middleName" matInput placeholder="MiddleName" type="text">
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-3">
+          <div class="form-group">
+            <div class="col-xl">
+
+              <mat-form-field>
+
+                <input [(ngModel)]="aliasName" formControlName="aliasName" matInput placeholder="AliasName" type="text">
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-3">
+          <div class="form-group">
+            <div class="col-xl">
+
+              <mat-form-field>
+
+                <input [(ngModel)]="motherName" formControlName="motherName" matInput placeholder="FatherName" type="text">
+              </mat-form-field>
+            </div>
+            <div class="text text-danger" *ngIf="RegisterForm.controls['motherName'].touched && !RegisterForm.controls['motherName'].valid">Mandatory(if not entered)</div>
+            <div class="text text-danger" *ngIf="RegisterForm.controls['motherName'].errors?.minlength">FatherName should have min 3 characters</div>
+            <div class="text text-danger" *ngIf="RegisterForm.controls['motherName'].errors?.maxlength">FatherName should have max 50 characters</div>
+            <div class="text text-danger" *ngIf="RegisterForm.controls['motherName'].errors?.pattern">Allow only alphabets</div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-3">
+          <div class="form-group">
+            <div class="col-xl">
+
+              <mat-form-field>
+
+                <input value={{dob|date}} formControlName="dob" matInput placeholder="DOB" type="text" readonly>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="col-lg-4 col-md-3">
+          <div class="form-group">
+            <div class="col-xl">
+
+              <mat-form-field>
+
+                <input [(ngModel)]="gender" formControlName="gender" matInput placeholder="Gender" type="text">
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-3">
+          <div class="form-group">
+            <div class="col-xl">
+
+              <mat-form-field>
+
+                <input [(ngModel)]="maritialStatus" formControlName="maritialStatus" matInput placeholder="Marital Status" type="text">
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-3">
+          <div class="form-group">
+            <div class="col-xl">
+
+              <mat-form-field>
+
+                <input required maxlength="50" minlength="3" style="color:blue" [(ngModel)]="address" formControlName="address" matInput placeholder="Address" type="text">
+              </mat-form-field>
+            </div>
+            <div class="text text-danger" *ngIf="RegisterForm.controls['address'].touched && !RegisterForm.controls['address'].valid">Mandatory(if not entered)</div>
+            <div class="text text-danger" *ngIf="RegisterForm.controls['address'].errors?.minlength">address should have min 3 characters</div>
+        <div class="text text-danger" *ngIf="RegisterForm.controls['address'].errors?.maxlength">address  should have  max 50 characters</div>
+      
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-3">
+          <div class="form-group">
+            <div class="col-xl">
+
+              <mat-form-field>
+
+                <input [(ngModel)]="city" formControlName="city" matInput placeholder="CITY" type="text">
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-3">
+          <div class="form-group">
+            <div class="col-xl">
+
+           <label>State</label>
+              <select style="width:200px" [(ngModel)]="state" formControlName="state" placeholder="State">
+          
+                <option value="Telangana">Telangana</option>
+                <option value="AndhraPradesh">AndhraPradesh</option>
+                <option value="Karnataka">Karnataka</option>
+                <option value="Kerala">Kerala</option>
+                <option value="Maharastra">Maharastra</option>
+                <option value="Orrisa">Orrisa</option>
+                <option value="others">others</option>
+              </select>
+         
+            </div>
+          </div>
+        </div>
+      
+        <div class="col-lg-4 col-md-3">
+          <div class="form-group">
+            <div class="col-xl">
+
+              <mat-form-field>
+
+                <input [(ngModel)]="religion" formControlName="religion" matInput placeholder="Religion" type="text">
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="col-lg-4 col-md-3">
+          <div class="form-group">
+            <div class="col-xl">
+
+              <mat-form-field>
+
+                <input [(ngModel)]="occupation" formControlName="occupation" matInput placeholder="Occupation" type="text">
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-3">
+          <div class="form-group">
+            <div class="col-xl">
+
+              <mat-form-field>
+
+                <input [(ngModel)]="nationality" formControlName="nationality" matInput placeholder="Nationality" type="text">
+              </mat-form-field>
+              
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-3">
+          <div class="form-group">
+            <div class="col-xl">
+<label>BloodGroup</label>
+             
+                <select style="width:200px" [(ngModel)]="bloodGroup"   formControlName="bloodGroup"  placeholder="BloodGroup">
+                  
+                  <option value="A+">A+</option>
+                  <option value="A-">A-</option>
+                  <option value="AB">AB+</option>
+                  <option value="AB-">AB-</option>
+                  <option value="B+">B+</option>
+                  <option value="B-">B-</option>
+                  <option value="O+">O+</option>
+                  <option value="O-">O-</option>
+                </select>
+          
+
+            
+
+            </div>
+          </div>
+        </div>
+
+
+<!-- 
+        <div class="col-lg-4 col-md-3">
+          <div class="form-group">
+            <div class="col-xl">
+<label>PatientType</label>
+           
+              <select  style="width:200px" [(ngModel)]="pType"  formControlName="pType"  placeholder="PatientType" required>
+            
+                <option value="DAY CARE">DAY CARE</option> 
+                <option value="EMERGENCY">EMERGENCY</option>
+                <option value="OUTPATIENT">OUTPATIENT</option>
+                <option value="INPATIENT">INPATIENT</option>
+                <option value="GENERAL">GENERAL</option>
+                <option value="VIP">VIP</option>
+              </select>
+            </div>
+          </div>
+        </div> -->
+        <!-- <div class="col-lg-4 col-md-3">
+          <div class="form-group">
+            <div class="col-xl">
+
+          <label>Consultant</label>
+              <select [(ngModel)]="consultant" formControlName="consultant" placeholder="Consultant" required>
+                <option>none</option>
+                <option *ngFor="let data of Patient2;let i=index" [value]="data.firstName+' '+data.lastName">
+                  {{data.firstName}} {{data.lastName}}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div> -->
+        <br>
+
+        <div class="col-lg-4 col-md-3">
+          <div class="form-group">
+            <div class="col-xl">
+
+              <mat-form-field>
+
+                <input style="color:blue" pattern="[6789][0-9]{9}" maxlength="10" [(ngModel)]="mobile" formControlName="mobile" matInput placeholder="phone#"
+                  type="text">
+              </mat-form-field>
+            </div>
+
+            <div class="text text-danger" *ngIf="RegisterForm.controls['mobile'].touched && !RegisterForm.controls['mobile'].valid">Mandatory(if not entered)</div>
+            <div class="text text-danger" *ngIf="RegisterForm.controls['mobile'].errors?.minlength">mobile should have min 10 characters</div>
+        <div class="text text-danger" *ngIf="RegisterForm.controls['mobile'].errors?.maxlength">mobile  should have  max 10 characters</div>
+        <div class="text text-danger" *ngIf="RegisterForm.controls['mobile'].errors?.pattern">Allow only numbers</div>
+
+          </div>
+        </div>
+
+
+        <div class="col-lg-4 col-md-3">
+          <div class="form-group">
+            <div class="col-xl">
+
+              <mat-form-field>
+
+                <input style="color:blue" pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$" [(ngModel)]="email" formControlName="email"
+                  matInput placeholder="Email" type="text">
+              </mat-form-field>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger mat-ripple" (click)="modal.close('Save click')">cancel</button>
+    <button class="btn btn-primary mat-ripple" md-ripple="submit"   (click)="submitForm2(RegisterForm.value);modal.close('Save click')">Save</button>
+  </div>
+</ng-template>
+
+
+<ng-template #basic1 let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Enrollement</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal" class="form-inline" [formGroup]="RegisterForm">
+
+
+      <div class="col-lg-3 col-md-2">
+        <div class="form-group">
+          <div class="col-xl">
+
+            <mat-form-field>
+
+              <input [(ngModel)]="umr" formControlName="umr" matInput placeholder="UMR#" type="text" readonly>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <label>PatientType:</label>
+      <div class="col-lg-3 col-md-3">
+
+        <div class="form-group">
+          
+          <div class="col-xl">
+
+    
+              <select [(ngModel)]="pType"  formControlName="pType"  placeholder="PatientType" required>
+                <option>None</option>
+                <option value="DAY CARE">DAY CARE</option> 
+                <option value="EMERGENCY">EMERGENCY</option>
+                <option value="OUTPATIENT">OUTPATIENT</option>
+                <option value="INPATIENT">INPATIENT</option>
+                <option value="GENERAL">GENERAL</option>
+                <option value="VIP">VIP</option>
+              </select>
+         
+          </div>
+        </div>
+      </div>
+      <label>Consultant:</label>
+      <div class="col-lg-3 col-md-3">
+         
+        <div class="form-group">
+         
+          <div class="col-xl">
+
+            <!-- <mat-form-field>
+  
+                  <input [(ngModel)]="consultant" formControlName="consultant" matInput placeholder="Consultant" type="text" >
+                </mat-form-field> -->
+
+            <select [(ngModel)]="consultant" formControlName="consultant" placeholder="Consultant" required>
+                  <option>none</option>
+                  <option *ngFor="let data of Patient2;let i=index" [value]="data.firstName+' '+data.lastName">
+                    {{data.firstName}} {{data.lastName}}
+                  </option>
+                </select>
+          </div>
+        </div>
+      </div>
+
+
+    </form>
+
+    <div class="col-md-6">
+      <div class="form-group">
+        <div class="col-xl">
+
+          <mat-form-field>
+
+            <input required [(ngModel)]="regFee"  pattern="(0|[0-9]\d*)"  [formControl]="RegisterForm.controls['regFee']" matInput placeholder="Amount" type="text">
+          </mat-form-field>
+        
+        </div>
+
+        <div class="text text-danger" *ngIf="RegisterForm.controls['regFee'].touched && !RegisterForm.controls['regFee'].valid">Mandatory(if not entered)</div>
+ 
+    <div class="text text-danger" *ngIf="RegisterForm.controls['regFee'].errors?.pattern">Allow only numbers</div>
+                
+
+      </div>
+    </div>
+    <label>FeeType:</label>
+    <div class="col-md-6">
+      <div class="form-group">
+        <div class="col-xl">
+
+
+          <select  required  style="width:150px" required [(ngModel)]="typeOfCharge" [formControl]="RegisterForm.controls['typeOfCharge']"  placeholder="FeeType" type="text">
+            <option>None</option>
+            <option value="advance">Advance</option>
+        
+            <option value="doctorfee">doctorfee</option>
+            <option value="Nursing Charges">Nursing Charges</option>
+
+            <option value="Service Charges">Service Charges</option>
+            <option value="Vacination fees">Vacination fees</option>
+ 
+          </select>
+
+        </div>
+      </div>
+    </div>
+    <label>ModeOfPayment:</label>
+     <div class=" col-md-6">
+        <div class="form-group">
+          <div class="col-xl">
+
+            <mat-radio-group  [(ngModel)]="modeOfPayment">
+              <mat-radio-button value="Cash">Cash</mat-radio-button><br>
+              <mat-radio-button value="Credit Card">Credit Card</mat-radio-button><br>
+              <mat-radio-button value="Debit Card">Debit Card</mat-radio-button><br>
+              <mat-radio-button value="Credit Note"> Credit Note</mat-radio-button><br>
+              <mat-radio-button value="cheque">Cheque</mat-radio-button>
+           
+            </mat-radio-group>
+        
+  
+  
+          </div>
+        </div>
+      </div>
+
+    <div *ngIf="pType === 'INPATIENT'" >
+        <a style="color:red" (click)="openBed(floor)">ChooseRoom</a>
+
+      </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger mat-ripple" (click)="modal.close('Save click')">cancel</button>
+ 
+    <button   class="btn btn-primary mat-ripple" md-ripple="submit"  (click)="newRegister(RegisterForm.value)">Save</button>
+    <button class="btn btn-primary mat-ripple"  (click)="printBlank()">print</button>
+  </div>
+</ng-template>
+
+
+
+<ng-template #content1 let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Registration Payment</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+  
+
+
+            <div class=" col-md-6">
+                <div class="form-group">
+                  <div class="col-xl">
+          
+                    <mat-form-field>
+          
+                      <input required [(ngModel)]="regFee"  pattern="(0|[0-9]\d*)"  [formControl]="RegisterForm.controls['regFee']" matInput placeholder="Amount" type="text">
+                    </mat-form-field>
+                  
+                  </div>
+        
+                  <div class="text text-danger" *ngIf="RegisterForm.controls['regFee'].touched && !RegisterForm.controls['regFee'].valid">Mandatory(if not entered)</div>
+           
+              <div class="text text-danger" *ngIf="RegisterForm.controls['regFee'].errors?.pattern">Allow only numbers</div>
+                          
+        
+                </div>
+              </div>
+          
+              <div class=" col-md-6">
+                <div class="form-group">
+                  <div class="col-xl">
+          
+          <label>FeeType :</label>
+                    <select  required  style="width:300px" required [(ngModel)]="typeOfCharge" [formControl]="RegisterForm.controls['typeOfCharge']"  placeholder="FeeType" type="text">
+                      <option>None</option>
+                      <option value="Regfee">Regfee</option>
+                      <option value="doctorfee">doctorfee</option>
+                      <option value="nursefee">nursefee</option>
+                      <option value="servicefee">servicefee</option>
+                    </select>
+          
+                  </div>
+                </div>
+              </div>
+              <div class=" col-md-6">
+                  <div class="form-group ">
+                    <div class="col-xl">
+        
+                      <mat-radio-group  [(ngModel)]="modeOfPayment">
+                        <mat-radio-button value="cash">cash</mat-radio-button><br>
+                        <mat-radio-button value="credit card">credit card</mat-radio-button><br>
+                        <mat-radio-button value="debit card">debit card</mat-radio-button><br>
+                        <mat-radio-button value="cheque">cheque</mat-radio-button>
+            
+                      </mat-radio-group>
+                  
+            
+            
+                    </div>
+                  </div>
+                </div>
+              </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">close</button>
+    <button    class="btn btn-primary mat-ripple" md-ripple="submit"     (click)="newRegister(RegisterForm.value)">Save</button>
+
+  </div>
+</ng-template>
+
+
+<ng-template #floor let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Bed Allocation</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+    </div>
+    <div class="modal-body">
+
+        <div class="row">
+            
+                    <div class="col-md-4">
+                      <label>Floor:</label>
+                      <div class="form-group">
+            
+                        <div class="col-xl">
+            
+            
+            
+                          <select [(ngModel)]="floor1" [formControl]="RegisterForm.controls['floor1']" style="width:150px" placeholder="Floor" type="text">
+                              <option>none</option>
+                            <option  *ngFor="let data of BEDS" [value]="data">{{data}}</option>
+                           
+                            </select>
+            
+                        </div>
+                      </div>
+                    </div>
+                               <div class="col-md-4">
+                              <div style="color:rebeccapurple" *ngFor="let n of WARDS">
+                                <button style="font-size :11px;width:130px;" type="button" class="btn btn-outline-dark" (click)="bedColor(n)">{{n}}</button>
+                              </div>
+                            </div>
+                           
+                            <div class="col-md-4">
+                                <div *ngFor="let b of Colors;let i=index">
+                      
+                                  <a style="width:150px"  [ngStyle]="{'color':getColor(b.status)}" > <i class="fa fa-user-md">{{b.bedName}}</i></a>
+                                  
+                      
+                                </div>
+                              </div>
+                        </div>  
+                  </div>
+                  <div class="row">
+                        <div class="col-md-4">&nbsp;
+                        <label>Rooms:</label>
+                        <div class="form-group">
+              
+                          <div class="col-xl">
+              
+              
+              
+                            <select [(ngModel)]="bed" [formControl]="RegisterForm.controls['bed']" style="width:150px" type="text">
+                                <option>none</option>
+                              <option *ngFor="let b of availColors" [value]="b.bedName">{{b.bedName}}</option>
+                             
+                              </select>
+              
+                          </div>
+                        </div>
+                      </div> 
+
+                       <div class="col-md-4">
+                          <div class="form-group ">
+                            <div class="col-xl">
+                    
+                              <mat-form-field>
+                    
+                                <input [(ngModel)]="idate" [formControl]="RegisterForm.controls['idate']"  matInput placeholder="From date" type="date">
+                              </mat-form-field>
+                    
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group ">
+                              <div class="col-xl">
+                      
+                                <mat-form-field>
+                      
+                                  <input [(ngModel)]="tdate" [formControl]="RegisterForm.controls['tdate']"  matInput placeholder="TO date" type="date">
+                                </mat-form-field>
+                      
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                              <div class="form-group ">
+                                <div class="col-xl">
+                        
+                                  <mat-form-field>
+                        
+                                    <input [(ngModel)]="Aamount" [formControl]="RegisterForm.controls['Aamount']"  matInput placeholder="Advance Amount" type="text">
+                                  </mat-form-field>
+                        
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group ">
+                                  <div class="col-xl">
+                          
+                                    <mat-form-field>
+                          
+                                      <input [(ngModel)]="eamount" [formControl]="RegisterForm.controls['eamount']"  matInput placeholder="Estimation amount" type="text">
+                                    </mat-form-field>
+                          
+                                  </div>
+                                </div>
+                              </div>
+                          
+              
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Done</button>
+
+
+    </div>
+  </ng-template>

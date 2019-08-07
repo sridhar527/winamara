@@ -1,0 +1,44 @@
+<div style="padding-left: 10px;padding-top: 10px;padding-right: 10px;margin-bottom: 10px;
+">
+  <mat-card style="background-color: #03a9f4; color:white; padding: 15px;">
+    <mat-card-title>Invoice Details
+      <button style="    margin-right: 10px;
+      float: right;
+      background-color: white;
+      color: black !important; " class="btn btn-primary mat-ripple" md-ripple="submit" routerLink="/dashboard"
+          >Home</button>
+ </mat-card-title>
+</mat-card>
+</div>
+<div style="padding-left:10px;padding-top:10px;padding-right:10px">
+  <mat-card>
+    <label>
+      <mat-form-field>
+
+        <input [(ngModel)]="filter" matInput placeholder="Search" type="text">
+      </mat-form-field>
+    </label>
+
+
+  </mat-card>
+
+</div>
+<table width="100%" class="table table-bordered"  style="overflow-y: scroll;">
+    <tr style="background:#03a9f4; color:white;">
+    <th>S.NO</th>
+    <th>Vendor Invoice Id</th>
+    <th>Raised By</th>
+    <th>Raised To</th>
+    
+  </tr>
+  <tr *ngFor="let data of Invoice| filter: filter|paginate: { itemsPerPage: 10, currentPage: p };let i=index">
+    <td>{{i+1}}</td>
+    <td>{{data.invoiceId}}</td>
+    <td>{{data.raisedBy}}</td>
+    <td>{{data.raisedTo}}</td>
+    
+  </tr>
+  </table>
+  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+    
